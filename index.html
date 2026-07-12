@@ -1,37 +1,361 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Under Construction</title>
-    <style>
-        body {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            font-family: Arial, sans-serif;
-            background-color: #f4f4f4;
-            margin: 0;
-        }
-        .container {
-            text-align: center;
-            padding: 20px;
-        }
-        h1 {
-            font-size: 3rem;
-            color: #333;
-        }
-        p {
-            font-size: 1.2rem;
-            color: #666;
-        }
-    </style>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>OPEX Consulting — Site Coming Soon</title>
+<meta name="description" content="OPEX for Management and Consulting. Operational Excellence. Site launching soon."/>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Inter:wght@300;400;500&display=swap" rel="stylesheet"/>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --navy:  #1B2A4A;
+    --blue:  #2E5FA3;
+    --gold:  #B8973A;
+    --mid:   #6B7A90;
+    --light: #E8EDF4;
+    --white: #FFFFFF;
+    --ink:   #1B2A4A;
+    --ease:  cubic-bezier(.4, 0, .2, 1);
+  }
+
+  html, body {
+    height: 100%;
+    font-family: 'Inter', system-ui, sans-serif;
+    background: var(--white);
+    color: var(--ink);
+    -webkit-font-smoothing: antialiased;
+  }
+
+  body {
+    min-height: 100svh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    padding: 3rem 2rem;
+    position: relative;
+    overflow: hidden;
+  }
+
+  /* ── Subtle background ── */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background:
+      radial-gradient(ellipse 70% 50% at 50% 0%, rgba(46,95,163,.05) 0%, transparent 70%),
+      radial-gradient(ellipse 60% 40% at 50% 100%, rgba(27,42,74,.04) 0%, transparent 70%);
+    pointer-events: none;
+  }
+
+  /* ── Animated arc canvas ── */
+  #arc {
+    position: fixed;
+    inset: 0;
+    width: 100%; height: 100%;
+    pointer-events: none;
+    z-index: 0;
+    opacity: .55;
+  }
+
+  /* ── Main content ── */
+  .top    { position: relative; z-index: 1; }
+  .middle { position: relative; z-index: 1; text-align: center; flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 0; }
+  .bottom { position: relative; z-index: 1; text-align: center; }
+
+  /* ── Logo area ── */
+  .logo-wrap {
+    margin-bottom: 3rem;
+    opacity: 0;
+    animation: fadeIn .9s ease .2s forwards;
+  }
+  .logo-wrap img {
+    width: 200px;
+    height: auto;
+    display: block;
+    margin: 0 auto;
+  }
+
+  /* ── Divider ── */
+  .divider {
+    width: 60px;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--gold), transparent);
+    margin: 0 auto 2.5rem;
+    opacity: 0;
+    animation: fadeIn .8s ease .5s forwards;
+  }
+
+  /* ── Headline ── */
+  .headline {
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    font-size: clamp(2rem, 5vw, 3.4rem);
+    font-weight: 300;
+    line-height: 1.25;
+    color: var(--navy);
+    letter-spacing: .01em;
+    margin-bottom: 1.4rem;
+    opacity: 0;
+    animation: fadeIn .9s ease .55s forwards;
+  }
+  .headline em {
+    font-style: italic;
+    font-weight: 300;
+    color: var(--blue);
+  }
+
+  /* ── Subline ── */
+  .subline {
+    font-size: .92rem;
+    font-weight: 300;
+    color: var(--mid);
+    line-height: 1.75;
+    max-width: 380px;
+    margin: 0 auto 3rem;
+    opacity: 0;
+    animation: fadeIn .9s ease .7s forwards;
+  }
+
+  /* ── Progress indicator ── */
+  .progress-wrap {
+    width: 240px;
+    margin: 0 auto 3rem;
+    opacity: 0;
+    animation: fadeIn .9s ease .85s forwards;
+  }
+  .progress-label {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: .6rem;
+    font-size: .68rem;
+    font-weight: 500;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+    color: var(--mid);
+  }
+  .progress-bar {
+    height: 2px;
+    background: var(--light);
+    position: relative;
+    overflow: hidden;
+  }
+  .progress-fill {
+    position: absolute;
+    left: 0; top: 0; bottom: 0;
+    width: 0;
+    background: linear-gradient(90deg, var(--blue), var(--gold));
+    animation: fillProgress 2.5s var(--ease) 1.2s forwards;
+  }
+  @keyframes fillProgress {
+    from { width: 0; }
+    to   { width: 72%; }
+  }
+
+  /* ── Contact ── */
+  .contact-line {
+    font-size: .82rem;
+    font-weight: 300;
+    color: var(--mid);
+    opacity: 0;
+    animation: fadeIn .9s ease 1s forwards;
+  }
+  .contact-line a {
+    color: var(--blue);
+    text-decoration: none;
+    font-weight: 400;
+    border-bottom: 1px solid transparent;
+    transition: border-color .2s;
+  }
+  .contact-line a:hover { border-color: var(--blue); }
+
+  /* ── Footer ── */
+  .footer-text {
+    font-size: .7rem;
+    font-weight: 300;
+    color: rgba(107,122,144,.55);
+    letter-spacing: .06em;
+    opacity: 0;
+    animation: fadeIn .9s ease 1.1s forwards;
+  }
+
+  /* ── Keyframe ── */
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to   { opacity: 1; transform: none; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    * { animation-duration: .01ms !important; }
+  }
+
+  @media (max-width: 480px) {
+    body { padding: 2rem 1.5rem; }
+    .logo-wrap img { width: 160px; }
+  }
+</style>
 </head>
 <body>
-    <div class="container">
-        <h1>🚧 Under Construction</h1>
-        <p>Our new website is coming soon. Stay tuned!</p>
+
+<canvas id="arc" aria-hidden="true"></canvas>
+
+<div class="top"></div>
+
+<div class="middle">
+
+  <!-- Logo -->
+  <div class="logo-wrap">
+    <img src="logo.png" alt="OPEX — Operational Excellence for Management and Consulting"/>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- Headline -->
+  <h1 class="headline">
+    Our website is<br/><em>on its way.</em>
+  </h1>
+
+  <!-- Subline -->
+  <p class="subline">
+    We are putting the finishing touches on our new online presence. In the meantime, we remain fully available for any enquiry.
+  </p>
+
+  <!-- Progress -->
+  <div class="progress-wrap">
+    <div class="progress-label">
+      <span>Site in progress</span>
+      <span id="pct">0%</span>
     </div>
+    <div class="progress-bar">
+      <div class="progress-fill" id="fill"></div>
+    </div>
+  </div>
+
+  <!-- Contact -->
+  <p class="contact-line">
+    Reach us at &nbsp;<a href="mailto:contact@opex-mc.com">contact@opex-mc.com</a>
+  </p>
+
+</div>
+
+<div class="bottom">
+  <p class="footer-text">
+    &copy; <span id="yr"></span> &nbsp;OPEX for Management and Consulting &nbsp;·&nbsp; opex-mc.com
+  </p>
+</div>
+
+<script>
+/* Year */
+document.getElementById('yr').textContent = new Date().getFullYear();
+
+/* Animate percentage counter to match the bar */
+(function () {
+  const el = document.getElementById('pct');
+  const target = 72;
+  const delay  = 1200; // ms — matches animation-delay
+  const dur    = 2500;
+  let start = null;
+
+  function step(ts) {
+    if (!start) start = ts;
+    const p = Math.min((ts - start) / dur, 1);
+    // ease-out cubic
+    const eased = 1 - Math.pow(1 - p, 3);
+    el.textContent = Math.round(eased * target) + '%';
+    if (p < 1) requestAnimationFrame(step);
+  }
+
+  setTimeout(() => requestAnimationFrame(step), delay);
+})();
+
+/* Canvas: slow elegant arcs — matches the swoosh in the logo */
+(function () {
+  const cv  = document.getElementById('arc');
+  const ctx = cv.getContext('2d');
+  let W, H, t = 0;
+
+  const NAVY = 'rgba(27,42,74,';
+  const BLUE = 'rgba(46,95,163,';
+  const GOLD = 'rgba(184,151,58,';
+
+  function resize() {
+    W = cv.width  = window.innerWidth;
+    H = cv.height = window.innerHeight;
+  }
+
+  function arc(cx, cy, r, a0, a1, color, lw) {
+    ctx.beginPath();
+    ctx.arc(cx, cy, r, a0, a1);
+    ctx.strokeStyle = color;
+    ctx.lineWidth   = lw;
+    ctx.stroke();
+  }
+
+  function draw() {
+    ctx.clearRect(0, 0, W, H);
+    t += .003;
+
+    const cx = W / 2;
+    const cy = H / 2;
+    const base = Math.min(W, H) * .44;
+
+    /* Outer slow navy arc */
+    arc(
+      cx, cy, base + 40,
+      t - .6,
+      t + 1.1,
+      NAVY + '.06)',
+      1
+    );
+
+    /* Mid blue arc — logo swoosh echo */
+    arc(
+      cx, cy, base,
+      -Math.PI * .5 + t * .7,
+      -Math.PI * .5 + t * .7 + 1.6,
+      BLUE + '.08)',
+      1.5
+    );
+
+    /* Inner dashed arc */
+    ctx.setLineDash([6, 18]);
+    arc(
+      cx, cy, base - 55,
+      Math.PI + t * .5,
+      Math.PI + t * .5 + 2.4,
+      NAVY + '.04)',
+      1
+    );
+    ctx.setLineDash([]);
+
+    /* Gold accent arc — thin */
+    arc(
+      cx, cy, base + 80,
+      -t * .4,
+      -t * .4 + .9,
+      GOLD + '.12)',
+      1
+    );
+
+    /* Corner flourish arcs — top-right */
+    arc(W - 80, -20, 100, Math.PI * .4, Math.PI * .9, NAVY + '.04)', 1);
+    arc(W - 40, -20,  60, Math.PI * .4, Math.PI * .9, BLUE + '.05)', 1);
+
+    /* Corner flourish arcs — bottom-left */
+    arc(80, H + 20, 100, -Math.PI * .6, -Math.PI * .1, NAVY + '.04)', 1);
+    arc(40, H + 20,  60, -Math.PI * .6, -Math.PI * .1, BLUE + '.05)', 1);
+
+    requestAnimationFrame(draw);
+  }
+
+  window.addEventListener('resize', resize, { passive: true });
+  resize();
+  draw();
+})();
+</script>
 </body>
 </html>
