@@ -4,17 +4,18 @@
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <title>OPEX — Operational Excellence for Management and Consulting</title>
-<meta name="description" content="OPEX — Operational Excellence for Management and Consulting. Our new website is on its way. Contact us in the meantime."/>
+<meta name="description" content="OPEX delivers senior-level consulting across industrial engineering, railway systems, automotive, and management. One expert. Direct engagement. Measurable results."/>
 
-<!-- Favicon from logo colours -->
 <script>
 (function(){
   const c=document.createElement('canvas');c.width=64;c.height=64;
   const x=c.getContext('2d'),g=x.createLinearGradient(0,64,64,0);
   g.addColorStop(0,'#1A2B6B');g.addColorStop(1,'#4FA3E0');
   x.fillStyle=g;x.beginPath();x.arc(32,32,30,0,Math.PI*2);x.fill();
-  x.fillStyle='#fff';x.font='bold 26px serif';x.textAlign='center';x.textBaseline='middle';x.fillText('O',32,33);
-  const l=document.createElement('link');l.rel='icon';l.href=c.toDataURL();document.head.appendChild(l);
+  x.fillStyle='#fff';x.font='bold 26px serif';
+  x.textAlign='center';x.textBaseline='middle';x.fillText('O',32,33);
+  const l=document.createElement('link');l.rel='icon';l.href=c.toDataURL();
+  document.head.appendChild(l);
 })();
 </script>
 
@@ -23,563 +24,1223 @@
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,700;1,400;1,500&family=Source+Sans+3:wght@300;400;500;600&display=swap" rel="stylesheet"/>
 
 <style>
-/* ─── DESIGN TOKENS ─────────────────────────────────────── */
+/* ═══════════════════════════════════════════
+   TOKENS
+═══════════════════════════════════════════ */
 :root {
-  --navy:    #0F1C3F;
-  --navy-l:  #1A2B6B;
-  --blue:    #2155B5;
-  --sky:     #4FA3E0;
-  --silver:  #9AA8BF;
-  --charcoal:#3D4552;
-  --off-w:   #F4F6FA;
-  --white:   #FFFFFF;
-  --rule:    rgba(255,255,255,.1);
-  --rule-d:  rgba(15,28,63,.1);
+  --navy:     #0F1C3F;
+  --navy-l:   #1A2B6B;
+  --blue:     #2155B5;
+  --sky:      #4FA3E0;
+  --silver:   #9AA8BF;
+  --charcoal: #3D4552;
+  --mid:      #6B7A90;
+  --off:      #F4F6FA;
+  --white:    #FFFFFF;
+  --border:   rgba(15,28,63,.1);
+  --border-w: rgba(255,255,255,.1);
 
-  --f-serif: 'Playfair Display', Georgia, serif;
-  --f-sans:  'Source Sans 3', system-ui, sans-serif;
-  --ease:    cubic-bezier(.4,0,.2,1);
-  --ease-o:  cubic-bezier(0,.55,.45,1);
+  --fd: 'Playfair Display', Georgia, serif;
+  --fs: 'Source Sans 3', system-ui, sans-serif;
+  --ease: cubic-bezier(.4,0,.2,1);
+
+  --px: clamp(1.5rem, 5vw, 3.5rem);
+  --max: 1160px;
 }
 
-/* ─── RESET ─────────────────────────────────────────────── */
-*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-html{height:100%;font-size:16px}
-body{
-  font-family:var(--f-sans);
-  height:100%;min-height:100svh;
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  background:var(--off-w);
-  color:var(--charcoal);
-  -webkit-font-smoothing:antialiased;
-  overflow:hidden;
-}
-::selection{background:var(--blue);color:#fff}
+/* ═══════════════════════════════════════════
+   BASE
+═══════════════════════════════════════════ */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; font-size: 16px; }
+body { font-family: var(--fs); color: var(--charcoal); background: var(--white); overflow-x: hidden; -webkit-font-smoothing: antialiased; }
+::selection { background: var(--blue); color: #fff; }
+img { max-width: 100%; display: block; }
+a { color: inherit; }
 
-/* ─── LEFT PANEL: dark navy ──────────────────────────────── */
-.panel-left {
+/* ═══════════════════════════════════════════
+   REVEAL
+═══════════════════════════════════════════ */
+.r  { opacity: 0; transform: translateY(18px); transition: opacity .65s var(--ease), transform .65s var(--ease); }
+.r.on { opacity: 1; transform: none; }
+.rd1 { transition-delay: .1s; }
+.rd2 { transition-delay: .2s; }
+.rd3 { transition-delay: .3s; }
+.rd4 { transition-delay: .4s; }
+@media (prefers-reduced-motion: reduce) { .r { opacity:1; transform:none; transition:none; } }
+
+/* ═══════════════════════════════════════════
+   NAV
+═══════════════════════════════════════════ */
+#nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+  padding: 0 var(--px);
+  height: 72px;
+  display: flex; align-items: center; justify-content: space-between;
+  transition: background .3s, box-shadow .3s;
+}
+#nav.scrolled {
+  background: rgba(15,28,63,.97);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  box-shadow: 0 2px 20px rgba(0,0,0,.25);
+}
+.nav-logo { display: flex; align-items: center; text-decoration: none; }
+.nav-logo img {
+  height: 44px; width: auto;
+  filter: brightness(0) invert(1);
+  transition: opacity .2s;
+}
+#nav:not(.scrolled) .nav-logo img { filter: brightness(0) invert(1); }
+
+.nav-links { display: flex; align-items: center; gap: 2rem; list-style: none; }
+.nav-links a {
+  font-size: .83rem; font-weight: 500; letter-spacing: .06em;
+  color: rgba(255,255,255,.75); text-decoration: none;
+  position: relative; padding-bottom: 2px;
+  transition: color .2s;
+}
+.nav-links a::after {
+  content: ''; position: absolute; bottom: -1px; left: 0;
+  width: 0; height: 1px; background: var(--sky);
+  transition: width .25s var(--ease);
+}
+.nav-links a:hover { color: #fff; }
+.nav-links a:hover::after { width: 100%; }
+
+.nav-cta {
+  padding: .55rem 1.4rem;
+  background: var(--blue); color: #fff !important;
+  font-size: .82rem; font-weight: 500; letter-spacing: .06em;
+  text-decoration: none;
+  transition: background .22s, box-shadow .22s, transform .18s;
+}
+.nav-cta::after { display: none !important; }
+.nav-cta:hover { background: var(--sky); transform: translateY(-1px); box-shadow: 0 4px 16px rgba(79,163,224,.35); }
+
+.burger { display: none; flex-direction: column; gap: 5px; background: none; border: none; cursor: pointer; padding: 4px; }
+.burger span { display: block; width: 22px; height: 2px; background: #fff; transition: transform .28s, opacity .28s; }
+.burger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+.burger.open span:nth-child(2) { opacity: 0; }
+.burger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+.mob-menu {
+  display: none; position: fixed; inset: 0; z-index: 99;
+  background: var(--navy); flex-direction: column;
+  align-items: center; justify-content: center; gap: 2.5rem;
+}
+.mob-menu.open { display: flex; }
+.mob-menu a {
+  font-family: var(--fd); font-size: 2rem; font-style: italic;
+  color: #fff; text-decoration: none; transition: color .2s;
+}
+.mob-menu a:hover { color: var(--sky); }
+
+@media (max-width: 780px) {
+  .nav-links, .nav-cta { display: none; }
+  .burger { display: flex; }
+}
+
+/* ═══════════════════════════════════════════
+   HERO
+═══════════════════════════════════════════ */
+#hero {
+  min-height: 100svh;
   background: var(--navy);
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  padding: 3.5rem;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
   position: relative;
   overflow: hidden;
-  min-height: 100svh;
 }
 
-/* Subtle radial bloom — depth */
-.panel-left::before {
-  content:'';
-  position:absolute;
-  top:-20%;left:-10%;
-  width:120%;height:80%;
-  background:radial-gradient(ellipse at 30% 40%, rgba(33,85,181,.35) 0%, transparent 65%);
-  pointer-events:none;
-}
-
-/* Fine horizontal lines — industrial data-sheet feel */
-.panel-left::after {
-  content:'';
-  position:absolute;
-  inset:0;
+/* Fine line texture on the dark side */
+#hero::before {
+  content: '';
+  position: absolute; inset: 0;
   background-image: repeating-linear-gradient(
-    0deg,
-    transparent,
-    transparent 59px,
-    rgba(255,255,255,.03) 59px,
-    rgba(255,255,255,.03) 60px
+    0deg, transparent, transparent 79px,
+    rgba(255,255,255,.025) 79px, rgba(255,255,255,.025) 80px
+  ),
+  repeating-linear-gradient(
+    90deg, transparent, transparent 79px,
+    rgba(255,255,255,.015) 79px, rgba(255,255,255,.015) 80px
   );
-  pointer-events:none;
+  pointer-events: none;
 }
 
-/* SVG canvas for animated arrow path */
-.arrow-canvas {
-  position:absolute;
-  inset:0;width:100%;height:100%;
-  pointer-events:none;
-  z-index:0;
+/* Blue radial glow */
+#hero::after {
+  content: '';
+  position: absolute; top: -10%; right: 30%; width: 600px; height: 600px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(33,85,181,.2) 0%, transparent 65%);
+  pointer-events: none;
 }
 
-/* ── Logo ── */
-.logo-wrap {
-  position:relative;z-index:2;
-  opacity:0;
-  animation: fadeUp .8s var(--ease) .15s forwards;
-}
-.logo-wrap img {
-  width:220px;
-  height:auto;
-  /* logo is on white — invert won't work, use filter to kill white bg */
-  filter: brightness(0) invert(1);
-  /* show the logo tinted to match our palette */
-  /* Actually show at full colour using a blend overlay trick */
-  mix-blend-mode: normal;
-  filter: drop-shadow(0 2px 8px rgba(79,163,224,.15));
-}
-/* We'll show it in its natural colours but boosted for dark bg */
-.logo-wrap img {
-  filter: drop-shadow(0 1px 6px rgba(79,163,224,.2)) brightness(1.08) contrast(1.05);
+.hero-left {
+  position: relative; z-index: 2;
+  display: flex; flex-direction: column;
+  justify-content: center;
+  padding: 7rem var(--px) 7.5rem;
 }
 
-/* ── Headline ── */
-.left-headline {
-  position:relative;z-index:2;
-  flex:1;
-  display:flex;
-  flex-direction:column;
-  justify-content:center;
-  padding: 2rem 0;
+.hero-eyebrow {
+  display: inline-flex; align-items: center; gap: .7rem;
+  font-size: .72rem; font-weight: 600; letter-spacing: .18em;
+  text-transform: uppercase; color: var(--sky);
+  margin-bottom: 1.8rem;
 }
-.left-headline h1 {
-  font-family:var(--f-serif);
-  font-size:clamp(2rem,3.5vw,3.2rem);
-  font-weight:400;
-  line-height:1.2;
-  color:var(--white);
-  letter-spacing:-.01em;
-  margin-bottom:1.4rem;
-  opacity:0;
-  animation: fadeUp .9s var(--ease) .4s forwards;
-}
-.left-headline h1 em {
-  font-style:italic;
-  color:var(--sky);
-}
-.left-headline .tagline {
-  font-size:.88rem;
-  font-weight:300;
-  color:var(--silver);
-  line-height:1.7;
-  max-width:300px;
-  border-left:2px solid rgba(79,163,224,.35);
-  padding-left:1rem;
-  opacity:0;
-  animation: fadeUp .8s var(--ease) .6s forwards;
+.hero-eyebrow::before { content: ''; width: 28px; height: 1px; background: var(--sky); }
+
+.hero-logo { margin-bottom: 2.5rem; }
+.hero-logo img {
+  width: 320px; height: auto;
+  filter: brightness(0) invert(1) drop-shadow(0 2px 12px rgba(79,163,224,.2));
 }
 
-/* ── Domain badge ── */
-.domain-badge {
-  position:relative;z-index:2;
-  display:inline-flex;align-items:center;gap:.6rem;
-  font-family:var(--f-sans);
-  font-size:.78rem;
-  font-weight:500;
-  letter-spacing:.12em;
-  text-transform:uppercase;
-  color:rgba(255,255,255,.45);
-  opacity:0;
-  animation: fadeUp .8s var(--ease) .8s forwards;
+.hero-h1 {
+  font-family: var(--fd);
+  font-size: clamp(2.4rem, 4vw, 3.8rem);
+  font-weight: 400; line-height: 1.15;
+  color: #fff; letter-spacing: -.01em;
+  margin-bottom: 1.5rem;
 }
-.domain-badge::before {
-  content:'';
-  display:block;width:24px;height:1px;
-  background:rgba(79,163,224,.5);
-}
-.domain-badge span{color:var(--sky);opacity:.85}
+.hero-h1 em { font-style: italic; color: var(--sky); }
 
-/* ─── RIGHT PANEL: off-white ─────────────────────────────── */
-.panel-right {
-  background:var(--off-w);
-  display:flex;
-  flex-direction:column;
-  justify-content:space-between;
-  padding:3.5rem;
-  min-height:100svh;
-  position:relative;
+.hero-sub {
+  font-size: 1rem; font-weight: 300; line-height: 1.8;
+  color: rgba(255,255,255,.6);
+  max-width: 420px; margin-bottom: 2.8rem;
+  border-left: 2px solid rgba(79,163,224,.3);
+  padding-left: 1.1rem;
 }
 
-/* thin vertical accent on the join */
-.panel-right::before {
-  content:'';
-  position:absolute;
-  left:0;top:10%;bottom:10%;
-  width:1px;
-  background:linear-gradient(to bottom,transparent,var(--rule-d) 30%,var(--rule-d) 70%,transparent);
+.hero-actions { display: flex; align-items: center; gap: 1.2rem; flex-wrap: wrap; }
+
+.btn-primary {
+  display: inline-flex; align-items: center; gap: .55rem;
+  padding: .8rem 1.8rem;
+  background: var(--blue); color: #fff;
+  font-size: .85rem; font-weight: 600; letter-spacing: .06em;
+  text-decoration: none;
+  transition: background .22s, box-shadow .22s, transform .18s;
+}
+.btn-primary .arr { transition: transform .25s var(--ease); }
+.btn-primary:hover { background: var(--sky); transform: translateY(-2px); box-shadow: 0 6px 22px rgba(79,163,224,.4); }
+.btn-primary:hover .arr { transform: translateX(4px); }
+
+.btn-outline {
+  display: inline-flex; align-items: center; gap: .5rem;
+  padding: .8rem 1.8rem;
+  border: 1px solid rgba(255,255,255,.25); color: rgba(255,255,255,.8);
+  font-size: .85rem; font-weight: 400; letter-spacing: .06em;
+  text-decoration: none;
+  transition: border-color .22s, color .22s;
+}
+.btn-outline:hover { border-color: var(--sky); color: #fff; }
+
+/* Hero right: SVG orbital illustration */
+.hero-right {
+  position: relative; z-index: 2;
+  display: flex; align-items: center; justify-content: center;
+  padding: 7rem 3rem 7.5rem 1rem;
+}
+.orbital-wrap {
+  width: 100%; max-width: 480px;
+  opacity: 0; animation: fadeIn .9s var(--ease) .5s forwards;
+}
+@keyframes fadeIn { from { opacity:0; } to { opacity:1; } }
+
+/* Hero bottom stat bar */
+.hero-stats {
+  position: absolute; bottom: 0; left: 0; right: 0; z-index: 3;
+  border-top: 1px solid rgba(255,255,255,.08);
+  display: grid; grid-template-columns: repeat(4, 1fr);
+  background: rgba(10,16,36,.6);
+  backdrop-filter: blur(8px);
+  height: 88px;
+}
+.hero-stat {
+  padding: 1.2rem 1.8rem;
+  border-right: 1px solid rgba(255,255,255,.06);
+  display: flex; flex-direction: column; justify-content: center; gap: .22rem;
+}
+.hero-stat:last-child { border-right: none; }
+.hs-n {
+  font-family: var(--fd); font-size: 1.7rem; font-style: italic;
+  color: var(--sky); line-height: 1;
+}
+.hs-l {
+  font-size: .72rem; font-weight: 400; letter-spacing: .1em;
+  text-transform: uppercase; color: rgba(255,255,255,.4);
 }
 
-/* ── Status row ── */
-.status-row {
-  display:flex;align-items:center;gap:.7rem;
-  opacity:0;
-  animation:fadeUp .8s var(--ease) .5s forwards;
+@media (max-width: 900px) {
+  #hero { grid-template-columns: 1fr; }
+  .hero-right { display: none; }
+  .hero-left { padding: 7rem var(--px) 8.5rem; }
+  .hero-stats { grid-template-columns: repeat(2, 1fr); }
 }
-.status-dot {
-  width:8px;height:8px;border-radius:50%;
-  background:var(--sky);
-  animation:pulseD 2.2s ease-in-out 1.5s infinite;
-}
-@keyframes pulseD{
-  0%,100%{box-shadow:0 0 0 0 rgba(79,163,224,.5)}
-  50%    {box-shadow:0 0 0 6px rgba(79,163,224,0)}
-}
-.status-text {
-  font-size:.72rem;
-  font-weight:500;
-  letter-spacing:.14em;
-  text-transform:uppercase;
-  color:var(--silver);
+@media (max-width: 520px) {
+  .hero-stats { grid-template-columns: repeat(2, 1fr); }
+  .hero-stat { padding: 1rem; }
 }
 
-/* ── Right body ── */
-.right-body {
-  flex:1;
-  display:flex;
-  flex-direction:column;
-  justify-content:center;
-  padding:2rem 0;
+/* ═══════════════════════════════════════════
+   SHARED SECTION
+═══════════════════════════════════════════ */
+.sec { padding: clamp(4rem, 8vw, 7rem) var(--px); }
+.wrap { max-width: var(--max); margin: 0 auto; }
+
+.eyebrow {
+  display: inline-flex; align-items: center; gap: .6rem;
+  font-size: .7rem; font-weight: 600; letter-spacing: .18em;
+  text-transform: uppercase; color: var(--blue);
+  margin-bottom: 1rem;
 }
-.section-label {
-  font-size:.7rem;
-  font-weight:600;
-  letter-spacing:.18em;
-  text-transform:uppercase;
-  color:var(--blue);
-  margin-bottom:1.5rem;
-  opacity:0;
-  animation:fadeUp .8s var(--ease) .55s forwards;
+.eyebrow::before { content: ''; width: 22px; height: 1px; background: var(--blue); }
+
+.sec-title {
+  font-family: var(--fd);
+  font-size: clamp(2rem, 4vw, 3.2rem);
+  font-weight: 400; line-height: 1.18;
+  color: var(--navy); letter-spacing: -.01em;
+}
+.sec-title em { font-style: italic; color: var(--blue); }
+
+.sec-lead {
+  font-size: 1rem; font-weight: 300; line-height: 1.85;
+  color: var(--mid); max-width: 560px;
+}
+.rule { width: 48px; height: 2px; background: linear-gradient(90deg, var(--blue), var(--sky)); margin: 1.4rem 0; }
+
+/* ═══════════════════════════════════════════
+   ABOUT
+═══════════════════════════════════════════ */
+#about { background: var(--off); border-top: 1px solid var(--border); }
+
+.about-grid {
+  display: grid;
+  grid-template-columns: 1.1fr 1fr;
+  gap: clamp(3rem, 7vw, 6rem);
+  align-items: center;
 }
 
-.right-body h2 {
-  font-family:var(--f-serif);
-  font-size:clamp(1.6rem,2.5vw,2.4rem);
-  font-weight:400;
-  line-height:1.25;
-  color:var(--navy);
-  margin-bottom:1.2rem;
-  opacity:0;
-  animation:fadeUp .9s var(--ease) .65s forwards;
+.about-text {}
+.about-body {
+  font-size: .97rem; font-weight: 300; line-height: 1.9;
+  color: var(--charcoal); margin-bottom: 1.3rem;
 }
-.right-body h2 em{font-style:italic;color:var(--blue)}
+.about-body strong { color: var(--navy); font-weight: 600; }
 
-.right-body p {
-  font-size:.95rem;
-  font-weight:300;
-  line-height:1.85;
-  color:var(--charcoal);
-  margin-bottom:2.5rem;
-  max-width:340px;
-  opacity:0;
-  animation:fadeUp .8s var(--ease) .75s forwards;
+.about-quote {
+  margin: 2rem 0;
+  padding: 1.5rem 1.8rem;
+  background: var(--navy);
+  border-left: 3px solid var(--sky);
+  position: relative;
 }
-
-/* ── Progress ── */
-.progress-block {
-  margin-bottom:2.5rem;
-  opacity:0;
-  animation:fadeUp .8s var(--ease) .85s forwards;
+.about-quote p {
+  font-family: var(--fd); font-size: 1.2rem; font-style: italic;
+  color: #fff; line-height: 1.6; margin-bottom: .5rem;
 }
-.prog-head {
-  display:flex;justify-content:space-between;align-items:baseline;
-  margin-bottom:.55rem;
-}
-.prog-label {
-  font-size:.7rem;
-  font-weight:500;
-  letter-spacing:.12em;
-  text-transform:uppercase;
-  color:var(--charcoal);
-  opacity:.55;
-}
-.prog-pct {
-  font-family:var(--f-serif);
-  font-size:1.1rem;
-  font-weight:400;
-  font-style:italic;
-  color:var(--blue);
-}
-.prog-track {
-  height:3px;
-  background:rgba(15,28,63,.1);
-  position:relative;overflow:hidden;
-}
-.prog-fill {
-  height:100%;width:0;
-  background:linear-gradient(90deg, var(--navy-l), var(--blue), var(--sky));
-  animation:fillBar 2.8s var(--ease) 1.3s forwards;
-}
-@keyframes fillBar{from{width:0}to{width:72%}}
-
-/* Services teaser */
-.services-teaser {
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:.6rem;
-  margin-bottom:2.5rem;
-  opacity:0;
-  animation:fadeUp .8s var(--ease) .95s forwards;
-}
-.svc-chip {
-  display:flex;align-items:center;gap:.55rem;
-  padding:.6rem .8rem;
-  border:1px solid rgba(15,28,63,.1);
-  background:var(--white);
-  font-size:.75rem;
-  font-weight:400;
-  color:var(--charcoal);
-  transition:border-color .2s,color .2s;
-}
-.svc-chip:hover{border-color:var(--blue);color:var(--navy)}
-.svc-chip svg{flex-shrink:0;color:var(--blue)}
-
-/* ── Contact ── */
-.contact-block {
-  opacity:0;
-  animation:fadeUp .8s var(--ease) 1.05s forwards;
-}
-.contact-block p{
-  font-size:.82rem;color:var(--silver);margin-bottom:.9rem;
-  font-weight:300;
-}
-.contact-block p strong{color:var(--charcoal);font-weight:500}
-.contact-email {
-  display:inline-flex;align-items:center;gap:.6rem;
-  padding:.72rem 1.6rem;
-  background:var(--navy);
-  color:var(--white);
-  font-size:.8rem;
-  font-weight:500;
-  letter-spacing:.08em;
-  text-transform:uppercase;
-  text-decoration:none;
-  transition:background .22s,box-shadow .22s,transform .18s;
-}
-.contact-email .arr{transition:transform .25s var(--ease)}
-.contact-email:hover{background:var(--navy-l);box-shadow:0 6px 22px rgba(15,28,63,.22);transform:translateY(-1px)}
-.contact-email:hover .arr{transform:translateX(4px)}
-
-/* ── Footer ── */
-.right-footer {
-  opacity:0;
-  animation:fadeUp .8s var(--ease) 1.15s forwards;
-}
-.footer-copy {
-  font-size:.68rem;
-  font-weight:300;
-  color:rgba(61,69,82,.45);
-  letter-spacing:.06em;
+.about-quote cite {
+  font-size: .7rem; font-weight: 500; letter-spacing: .1em;
+  text-transform: uppercase; color: var(--silver); font-style: normal;
 }
 
-/* ─── ANIMATIONS ─────────────────────────────────────────── */
-@keyframes fadeUp{
-  from{opacity:0;transform:translateY(12px)}
-  to  {opacity:1;transform:none}
+.expertise-grid {
+  display: grid; grid-template-columns: 1fr 1fr;
+  gap: .8rem; margin-top: 1.8rem;
+}
+.exp-tag {
+  display: flex; align-items: center; gap: .6rem;
+  padding: .75rem 1rem;
+  border: 1px solid var(--border);
+  background: var(--white);
+  font-size: .82rem; font-weight: 400; color: var(--charcoal);
+  transition: border-color .22s, color .22s, box-shadow .22s;
+  cursor: default;
+}
+.exp-tag svg { color: var(--blue); flex-shrink: 0; transition: color .22s; }
+.exp-tag:hover { border-color: var(--blue); color: var(--navy); box-shadow: 0 2px 12px rgba(33,85,181,.1); }
+.exp-tag:hover svg { color: var(--sky); }
+
+/* About right: portrait schematic */
+.about-visual {
+  position: relative;
+}
+.about-img-frame {
+  position: relative;
+  background: var(--navy);
+  aspect-ratio: 4/5;
+  max-width: 360px;
+  overflow: hidden;
+  display: flex; align-items: center; justify-content: center;
+}
+.about-img-frame::after {
+  content: '';
+  position: absolute; inset: 0;
+  background: linear-gradient(135deg, rgba(33,85,181,.15) 0%, transparent 60%);
+}
+.about-frame-svg {
+  position: absolute; inset: 0; width: 100%; height: 100%;
+  opacity: .9;
+}
+.about-frame-label {
+  position: absolute; bottom: 0; left: 0;
+  background: var(--blue); color: #fff;
+  font-size: .7rem; font-weight: 600; letter-spacing: .1em;
+  text-transform: uppercase; padding: .6rem 1.2rem;
+  z-index: 2;
+}
+.about-accent {
+  position: absolute; top: 1.5rem; right: -1.2rem;
+  width: 50px; height: 50px;
+  border: 1.5px solid var(--blue); opacity: .3;
 }
 
-/* ─── MOBILE ─────────────────────────────────────────────── */
-@media(max-width:860px){
-  body{
-    grid-template-columns:1fr;
-    grid-template-rows:auto 1fr;
-    overflow:auto;
-  }
-  .panel-left{
-    min-height:auto;
-    padding:2.5rem 2rem;
-    grid-row:1;
-  }
-  .panel-right{
-    min-height:auto;
-    padding:2.5rem 2rem;
-    grid-row:2;
-  }
-  .panel-left::before{display:none}
-  .panel-right::before{
-    left:10%;right:10%;top:0;bottom:auto;
-    width:auto;height:1px;
-    background:linear-gradient(to right,transparent,var(--rule-d) 30%,var(--rule-d) 70%,transparent);
-  }
-  .logo-wrap img{width:180px}
-  .left-headline{padding:1.8rem 0}
-  .arrow-canvas{display:none}
+@media (max-width: 860px) {
+  .about-grid { grid-template-columns: 1fr; }
+  .about-visual { display: none; }
 }
 
-@media(max-width:480px){
-  .services-teaser{grid-template-columns:1fr}
+/* ═══════════════════════════════════════════
+   SERVICES
+═══════════════════════════════════════════ */
+#services { background: var(--white); border-top: 1px solid var(--border); }
+
+.services-head {
+  display: grid; grid-template-columns: 1fr 1fr;
+  gap: 2.5rem; align-items: end;
+  margin-bottom: 3.5rem;
 }
-@media(prefers-reduced-motion:reduce){
-  *{animation-duration:.01ms!important;transition-duration:.01ms!important}
+@media (max-width: 720px) { .services-head { grid-template-columns: 1fr; } }
+
+.svc-grid {
+  display: grid; grid-template-columns: repeat(2, 1fr);
+  gap: 1px; background: rgba(15,28,63,.07);
 }
+
+.svc-card {
+  background: var(--white);
+  padding: 2.5rem;
+  position: relative; overflow: hidden;
+  cursor: default;
+  transition: background .3s, box-shadow .3s;
+}
+/* Blue left-border reveal */
+.svc-card::before {
+  content: '';
+  position: absolute; left: 0; top: 0; bottom: 0; width: 3px;
+  background: linear-gradient(to bottom, var(--blue), var(--sky));
+  transform: scaleY(0); transform-origin: top;
+  transition: transform .35s var(--ease);
+}
+.svc-card:hover { background: var(--off); }
+.svc-card:hover::before { transform: scaleY(1); }
+
+.svc-icon-ring {
+  width: 52px; height: 52px;
+  border: 1.5px solid var(--border);
+  display: flex; align-items: center; justify-content: center;
+  margin-bottom: 1.4rem; color: var(--blue);
+  transition: border-color .25s, background .25s, color .25s;
+}
+.svc-card:hover .svc-icon-ring { border-color: var(--blue); background: rgba(33,85,181,.06); color: var(--navy); }
+
+.svc-title {
+  font-family: var(--fd); font-size: 1.4rem; font-weight: 500;
+  color: var(--navy); line-height: 1.25; margin-bottom: .85rem;
+  transition: color .25s;
+}
+.svc-card:hover .svc-title { color: var(--blue); }
+
+.svc-desc {
+  font-size: .9rem; font-weight: 300; line-height: 1.8;
+  color: var(--mid); margin-bottom: 1.2rem;
+}
+.svc-tags { display: flex; flex-wrap: wrap; gap: .4rem; }
+.svc-tag {
+  font-size: .67rem; font-weight: 500; letter-spacing: .08em;
+  text-transform: uppercase; padding: .25rem .65rem;
+  background: var(--off); color: var(--mid); border: 1px solid var(--border);
+  transition: background .2s, color .2s, border-color .2s;
+}
+.svc-card:hover .svc-tag { background: rgba(33,85,181,.07); border-color: rgba(33,85,181,.2); color: var(--navy); }
+
+@media (max-width: 720px) { .svc-grid { grid-template-columns: 1fr; } }
+
+/* ═══════════════════════════════════════════
+   WHY OPEX
+═══════════════════════════════════════════ */
+#why {
+  background: var(--navy);
+  border-top: 1px solid rgba(255,255,255,.05);
+  position: relative; overflow: hidden;
+}
+#why::before {
+  content: '';
+  position: absolute; bottom: -20%; right: -5%;
+  width: 600px; height: 600px; border-radius: 50%;
+  background: radial-gradient(circle, rgba(33,85,181,.15) 0%, transparent 65%);
+  pointer-events: none;
+}
+#why .sec-title { color: #fff; }
+#why .sec-title em { color: var(--sky); }
+#why .sec-lead { color: rgba(255,255,255,.5); max-width: 100%; }
+
+.why-head {
+  display: grid; grid-template-columns: 1fr 1fr;
+  gap: 3rem; align-items: end; margin-bottom: 4rem;
+}
+@media (max-width: 720px) { .why-head { grid-template-columns: 1fr; } }
+
+.why-grid {
+  display: grid; grid-template-columns: repeat(3, 1fr);
+  gap: 1.5rem;
+}
+.why-card {
+  padding: 2rem 1.8rem;
+  border: 1px solid rgba(255,255,255,.07);
+  position: relative; overflow: hidden;
+  transition: border-color .3s, transform .3s var(--ease);
+}
+/* Top sweep line on hover */
+.why-card::before {
+  content: '';
+  position: absolute; top: 0; left: -100%; right: 100%; height: 2px;
+  background: linear-gradient(90deg, transparent, var(--sky), transparent);
+  transition: left .5s var(--ease), right .5s var(--ease);
+}
+.why-card:hover::before { left: 0; right: 0; }
+.why-card:hover { border-color: rgba(79,163,224,.3); transform: translateY(-3px); }
+
+.why-icon {
+  width: 44px; height: 44px;
+  border: 1px solid rgba(79,163,224,.2);
+  display: flex; align-items: center; justify-content: center;
+  color: var(--sky); margin-bottom: 1.2rem;
+  transition: background .25s, border-color .25s;
+}
+.why-card:hover .why-icon { background: rgba(79,163,224,.1); border-color: rgba(79,163,224,.4); }
+
+.why-title {
+  font-family: var(--fd); font-size: 1.15rem; font-weight: 500;
+  color: #fff; margin-bottom: .6rem;
+}
+.why-desc {
+  font-size: .87rem; font-weight: 300; line-height: 1.75;
+  color: rgba(255,255,255,.48);
+}
+
+.why-cta-row {
+  margin-top: 3.5rem; padding-top: 3rem;
+  border-top: 1px solid rgba(255,255,255,.07);
+  display: flex; align-items: center; justify-content: space-between;
+  gap: 2rem; flex-wrap: wrap;
+}
+.why-cta-text {
+  font-family: var(--fd); font-size: clamp(1.4rem, 2.5vw, 2rem);
+  font-style: italic; color: #fff; max-width: 480px; line-height: 1.35;
+}
+.why-cta-text strong { font-style: normal; color: var(--sky); }
+
+@media (max-width: 860px) { .why-grid { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 540px) {
+  .why-grid { grid-template-columns: 1fr; }
+  .why-cta-row { flex-direction: column; align-items: flex-start; }
+}
+
+/* ═══════════════════════════════════════════
+   CONTACT
+═══════════════════════════════════════════ */
+#contact { background: var(--off); border-top: 1px solid var(--border); }
+
+.contact-grid {
+  display: grid; grid-template-columns: 1fr 1.15fr;
+  gap: clamp(3rem, 7vw, 5rem); align-items: start;
+}
+.contact-body {
+  font-size: .95rem; font-weight: 300; line-height: 1.85;
+  color: var(--mid); margin: 1.5rem 0 2.5rem;
+}
+
+.contact-items { list-style: none; }
+.ci {
+  display: flex; align-items: center; gap: 1rem;
+  padding: .9rem 0; border-bottom: 1px solid var(--border);
+  transition: padding-left .2s;
+}
+.ci:last-child { border-bottom: none; }
+.ci:hover { padding-left: .4rem; }
+.ci-icon {
+  width: 38px; height: 38px; flex-shrink: 0;
+  border: 1px solid var(--border);
+  display: flex; align-items: center; justify-content: center;
+  color: var(--blue);
+  transition: background .2s, border-color .2s;
+}
+.ci:hover .ci-icon { background: rgba(33,85,181,.07); border-color: var(--blue); }
+.ci-label {
+  display: block; font-size: .64rem; font-weight: 600;
+  letter-spacing: .1em; text-transform: uppercase;
+  color: var(--silver); margin-bottom: .12rem;
+}
+.ci-val { font-size: .9rem; color: var(--charcoal); }
+.ci-val a { text-decoration: none; color: var(--charcoal); transition: color .2s; }
+.ci-val a:hover { color: var(--blue); }
+
+/* Form */
+.contact-form {
+  background: var(--white);
+  padding: 2.5rem;
+  border: 1px solid var(--border);
+  position: relative;
+}
+.contact-form::before {
+  content: '';
+  position: absolute; top: 0; left: 0; right: 0; height: 3px;
+  background: linear-gradient(90deg, var(--navy-l), var(--blue), var(--sky));
+}
+.form-head {
+  font-family: var(--fd); font-size: 1.3rem; font-weight: 400; font-style: italic;
+  color: var(--navy); margin-bottom: 1.8rem;
+}
+.frow { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+.fg { display: flex; flex-direction: column; gap: .4rem; margin-bottom: 1rem; }
+label {
+  font-size: .68rem; font-weight: 600; letter-spacing: .1em;
+  text-transform: uppercase; color: var(--silver);
+}
+input, textarea, select {
+  width: 100%; padding: .72rem 1rem;
+  border: 1px solid var(--border);
+  background: var(--off);
+  font-family: var(--fs); font-size: .9rem; color: var(--charcoal);
+  outline: none; border-radius: 0; appearance: none;
+  transition: border-color .2s, background .2s;
+}
+input:focus, textarea:focus, select:focus {
+  border-color: var(--blue); background: var(--white);
+}
+textarea { resize: vertical; min-height: 110px; }
+.btn-form {
+  width: 100%; padding: .85rem;
+  background: var(--navy); color: #fff;
+  font-family: var(--fs); font-size: .83rem; font-weight: 600;
+  letter-spacing: .1em; text-transform: uppercase;
+  border: none; cursor: pointer; margin-top: .5rem;
+  transition: background .22s, transform .18s, box-shadow .2s;
+}
+.btn-form:hover { background: var(--blue); transform: translateY(-1px); box-shadow: 0 4px 18px rgba(33,85,181,.25); }
+.form-note { font-size: .72rem; color: var(--silver); margin-top: .75rem; line-height: 1.65; }
+.form-ok { display: none; text-align: center; padding: 3rem 1rem; }
+.form-ok-ico {
+  width: 54px; height: 54px; border-radius: 50%;
+  border: 1.5px solid var(--blue);
+  display: flex; align-items: center; justify-content: center;
+  margin: 0 auto 1.2rem; color: var(--blue);
+}
+.form-ok h3 { font-family: var(--fd); font-size: 1.5rem; font-style: italic; color: var(--navy); margin-bottom: .5rem; }
+.form-ok p { font-size: .88rem; color: var(--mid); }
+
+@media (max-width: 860px) { .contact-grid { grid-template-columns: 1fr; } .frow { grid-template-columns: 1fr; } }
+
+/* ═══════════════════════════════════════════
+   FOOTER
+═══════════════════════════════════════════ */
+footer {
+  background: var(--navy);
+  border-top: 1px solid rgba(255,255,255,.06);
+  padding: 2.5rem var(--px);
+}
+.ft-inner {
+  max-width: var(--max); margin: 0 auto;
+  display: flex; align-items: center; justify-content: space-between;
+  gap: 1.5rem; flex-wrap: wrap;
+}
+.ft-logo img {
+  height: 36px; width: auto;
+  filter: brightness(0) invert(1); opacity: .8;
+}
+.ft-copy {
+  font-size: .72rem; font-weight: 300;
+  color: rgba(255,255,255,.3); letter-spacing: .05em; text-align: center;
+}
+.ft-links { display: flex; gap: 1.5rem; }
+.ft-links a {
+  font-size: .75rem; font-weight: 400; letter-spacing: .06em;
+  color: rgba(255,255,255,.35); text-decoration: none;
+  transition: color .2s;
+}
+.ft-links a:hover { color: var(--sky); }
 </style>
 </head>
 <body>
 
-<!-- ══ LEFT PANEL ═════════════════════════════════════════ -->
-<div class="panel-left">
-
-  <!-- Animated SVG arrow — mirrors logo's upward arrow -->
-  <svg class="arrow-canvas" viewBox="0 0 600 900" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" preserveAspectRatio="xMidYMid slice">
-    <!-- Large sweeping orbital arc (silver ring echo) -->
-    <ellipse cx="300" cy="520" rx="340" ry="90"
-      fill="none" stroke="rgba(154,168,191,.07)" stroke-width="1.5"
-      stroke-dasharray="12 8"
-      transform="rotate(-15 300 520)"/>
-    <!-- Second orbital -->
-    <ellipse cx="300" cy="480" rx="260" ry="65"
-      fill="none" stroke="rgba(79,163,224,.06)" stroke-width="1"
-      transform="rotate(-15 300 480)"/>
-
-    <!-- Main rising arrow path — draws in -->
-    <path id="arrowPath"
-      d="M 120 820 C 140 700 180 580 240 460 C 300 340 340 240 370 140"
-      fill="none"
-      stroke="url(#arrowGrad)"
-      stroke-width="1.5"
-      stroke-linecap="round"
-      stroke-dasharray="1000"
-      stroke-dashoffset="1000">
-      <animate attributeName="stroke-dashoffset"
-        from="1000" to="0"
-        dur="3s" begin="0.8s"
-        fill="freeze"
-        calcMode="spline"
-        keySplines="0.4 0 0.2 1"/>
-    </path>
-
-    <!-- Arrowhead at top -->
-    <g opacity="0">
-      <path d="M 358 118 L 370 140 L 388 126" fill="none" stroke="rgba(79,163,224,.5)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-      <animate attributeName="opacity" values="0;0;1" keyTimes="0;0.85;1" dur="3.8s" begin="0.8s" fill="freeze"/>
-    </g>
-
-    <!-- Faint grid lines — technical drawing feel -->
-    <line x1="0" y1="200" x2="600" y2="200" stroke="rgba(255,255,255,.025)" stroke-width="1"/>
-    <line x1="0" y1="400" x2="600" y2="400" stroke="rgba(255,255,255,.025)" stroke-width="1"/>
-    <line x1="0" y1="600" x2="600" y2="600" stroke="rgba(255,255,255,.025)" stroke-width="1"/>
-    <line x1="0" y1="800" x2="600" y2="800" stroke="rgba(255,255,255,.025)" stroke-width="1"/>
-    <line x1="150" y1="0" x2="150" y2="900" stroke="rgba(255,255,255,.02)" stroke-width="1"/>
-    <line x1="300" y1="0" x2="300" y2="900" stroke="rgba(255,255,255,.02)" stroke-width="1"/>
-    <line x1="450" y1="0" x2="450" y2="900" stroke="rgba(255,255,255,.02)" stroke-width="1"/>
-
-    <!-- Scatter dots along the path -->
-    <circle cx="145" cy="800" r="2.5" fill="rgba(79,163,224,.25)"/>
-    <circle cx="190" cy="640" r="2"   fill="rgba(79,163,224,.2)"/>
-    <circle cx="250" cy="460" r="3"   fill="rgba(79,163,224,.3)"/>
-    <circle cx="310" cy="310" r="2"   fill="rgba(79,163,224,.2)"/>
-    <circle cx="355" cy="180" r="2.5" fill="rgba(79,163,224,.35)"/>
-
-    <defs>
-      <linearGradient id="arrowGrad" x1="0" y1="1" x2="0" y2="0">
-        <stop offset="0%"   stop-color="rgba(154,168,191,.15)"/>
-        <stop offset="50%"  stop-color="rgba(33,85,181,.4)"/>
-        <stop offset="100%" stop-color="rgba(79,163,224,.7)"/>
-      </linearGradient>
-    </defs>
-  </svg>
-
-  <!-- Logo -->
-  <div class="logo-wrap">
-    <img src="opex.png" alt="OPEX — Operational Excellence for Management and Consulting"/>
-  </div>
-
-  <!-- Headline -->
-  <div class="left-headline">
-    <h1>A new presence,<br/>built for <em>excellence.</em></h1>
-    <p class="tagline">
-      Industrial Engineering · Railway Systems · Automotive · Management Consulting
-    </p>
-  </div>
-
-  <!-- Domain -->
-  <div class="domain-badge">
-    <span>opex-mc.com</span>
-  </div>
+<!-- ═══ NAV ═══════════════════════════════════════════════ -->
+<nav id="nav">
+  <a href="#hero" class="nav-logo">
+    <img src="opex.png" alt="OPEX Consulting"/>
+  </a>
+  <ul class="nav-links">
+    <li><a href="#about">About</a></li>
+    <li><a href="#services">Services</a></li>
+    <li><a href="#why">Why OPEX</a></li>
+    <li><a href="#contact" class="nav-cta">Contact Us</a></li>
+  </ul>
+  <button class="burger" id="burger" aria-label="Open menu" aria-expanded="false">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+<div class="mob-menu" id="mob">
+  <a href="#about"   onclick="closeMob()">About</a>
+  <a href="#services" onclick="closeMob()">Services</a>
+  <a href="#why"     onclick="closeMob()">Why OPEX</a>
+  <a href="#contact" onclick="closeMob()">Contact</a>
 </div>
 
-<!-- ══ RIGHT PANEL ════════════════════════════════════════ -->
-<div class="panel-right">
+<!-- ═══ HERO ══════════════════════════════════════════════ -->
+<section id="hero">
 
-  <!-- Top: status -->
-  <div class="status-row">
-    <div class="status-dot"></div>
-    <span class="status-text">Site under construction</span>
-  </div>
+  <div class="hero-left">
+    <div class="hero-eyebrow r">Operational Excellence for Management and Consulting</div>
 
-  <!-- Body -->
-  <div class="right-body">
+    <div class="hero-logo r rd1">
+      <img src="opex.png" alt="OPEX — Operational Excellence for Management and Consulting"/>
+    </div>
 
-    <p class="section-label">Coming Soon</p>
+    <h1 class="hero-h1 r rd2">
+      Senior expertise.<br/>
+      <em>Direct engagement.</em><br/>
+      Real results.
+    </h1>
 
-    <h2>We are preparing<br/>something <em>substantial.</em></h2>
-
-    <p>
-      Our new website is being built to reflect over two decades of hands-on expertise across industry, infrastructure, and management. We will be with you shortly.
+    <p class="hero-sub r rd3">
+      OPEX brings decades of hands-on cross-industry experience directly to your organisation — industrial engineering, railway infrastructure, automotive systems, and management strategy. One expert. No intermediaries.
     </p>
 
-    <!-- Progress -->
-    <div class="progress-block">
-      <div class="prog-head">
-        <span class="prog-label">Site in progress</span>
-        <span class="prog-pct" id="pct">0%</span>
+    <div class="hero-actions r rd4">
+      <a href="#contact" class="btn-primary">
+        Start a conversation
+        <svg class="arr" width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
+          <path d="M1 7h12M8 2l5 5-5 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </a>
+      <a href="#services" class="btn-outline">Our services</a>
+    </div>
+  </div>
+
+  <!-- Right: Orbital SVG illustration — echoes the logo's swoosh/arrow -->
+  <div class="hero-right">
+    <div class="orbital-wrap" aria-hidden="true">
+      <svg viewBox="0 0 480 520" xmlns="http://www.w3.org/2000/svg" fill="none">
+        <!-- Outer orbital ring -->
+        <ellipse cx="240" cy="270" rx="210" ry="58"
+          stroke="rgba(154,168,191,.2)" stroke-width="1.5"
+          stroke-dasharray="8 6"
+          transform="rotate(-18 240 270)"/>
+        <!-- Main orbital ring (silver, like logo) -->
+        <ellipse cx="240" cy="260" rx="175" ry="46"
+          stroke="url(#silverRing)" stroke-width="2"
+          transform="rotate(-18 240 260)"/>
+        <!-- Inner ring -->
+        <ellipse cx="240" cy="255" rx="130" ry="33"
+          stroke="rgba(79,163,224,.15)" stroke-width="1"
+          transform="rotate(-18 240 255)"/>
+
+        <!-- Central circle — the O -->
+        <circle cx="240" cy="240" r="88"
+          stroke="url(#blueRing)" stroke-width="2.5"/>
+        <circle cx="240" cy="240" r="64"
+          stroke="rgba(33,85,181,.25)" stroke-width="1.5"
+          stroke-dasharray="6 10"/>
+        <circle cx="240" cy="240" r="28"
+          stroke="rgba(79,163,224,.3)" stroke-width="1.5"/>
+
+        <!-- Rising arrow path — animates in -->
+        <path id="risePath"
+          d="M 240 380 C 240 340 240 300 240 240 C 240 180 240 140 240 80"
+          stroke="url(#arrowLine)" stroke-width="1.5"
+          stroke-linecap="round"
+          stroke-dasharray="340" stroke-dashoffset="340">
+          <animate attributeName="stroke-dashoffset"
+            from="340" to="0" dur="2.2s" begin="0.6s"
+            fill="freeze" calcMode="spline"
+            keySplines="0.4 0 0.2 1"/>
+        </path>
+
+        <!-- Arrowhead -->
+        <g opacity="0">
+          <path d="M 228 98 L 240 76 L 252 98"
+            stroke="rgba(79,163,224,.85)" stroke-width="2"
+            stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+          <animate attributeName="opacity" values="0;0;1"
+            keyTimes="0;0.8;1" dur="2.8s" begin="0.6s" fill="freeze"/>
+        </g>
+
+        <!-- Orbit dots -->
+        <circle cx="82"  cy="222" r="4" fill="rgba(79,163,224,.5)"/>
+        <circle cx="400" cy="270" r="3" fill="rgba(154,168,191,.4)"/>
+        <circle cx="160" cy="348" r="3.5" fill="rgba(33,85,181,.5)"/>
+        <circle cx="330" cy="155" r="3" fill="rgba(79,163,224,.35)"/>
+
+        <!-- Industry labels -->
+        <text x="58" y="200" font-family="'Source Sans 3',sans-serif" font-size="11"
+          fill="rgba(154,168,191,.55)" text-anchor="middle" letter-spacing="1">INDUSTRIAL</text>
+        <text x="418" y="255" font-family="'Source Sans 3',sans-serif" font-size="11"
+          fill="rgba(154,168,191,.55)" text-anchor="middle" letter-spacing="1">RAILWAY</text>
+        <text x="165" y="375" font-family="'Source Sans 3',sans-serif" font-size="11"
+          fill="rgba(154,168,191,.55)" text-anchor="middle" letter-spacing="1">AUTOMOTIVE</text>
+        <text x="330" y="135" font-family="'Source Sans 3',sans-serif" font-size="11"
+          fill="rgba(79,163,224,.65)" text-anchor="middle" letter-spacing="1">STRATEGY</text>
+
+        <!-- Subtle grid lines -->
+        <line x1="0"   y1="240" x2="480" y2="240" stroke="rgba(255,255,255,.04)" stroke-width="1"/>
+        <line x1="240" y1="0"   x2="240" y2="520" stroke="rgba(255,255,255,.04)" stroke-width="1"/>
+
+        <defs>
+          <linearGradient id="silverRing" x1="0" y1="0" x2="1" y2="0">
+            <stop offset="0%"   stop-color="rgba(154,168,191,.1)"/>
+            <stop offset="40%"  stop-color="rgba(154,168,191,.55)"/>
+            <stop offset="100%" stop-color="rgba(154,168,191,.1)"/>
+          </linearGradient>
+          <linearGradient id="blueRing" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0%"   stop-color="rgba(26,43,107,.7)"/>
+            <stop offset="100%" stop-color="rgba(79,163,224,.6)"/>
+          </linearGradient>
+          <linearGradient id="arrowLine" x1="0" y1="1" x2="0" y2="0">
+            <stop offset="0%"   stop-color="rgba(33,85,181,.4)"/>
+            <stop offset="100%" stop-color="rgba(79,163,224,.9)"/>
+          </linearGradient>
+        </defs>
+      </svg>
+    </div>
+  </div>
+
+  <!-- Stat bar -->
+  <div class="hero-stats">
+    <div class="hero-stat">
+      <span class="hs-n">4</span>
+      <span class="hs-l">Practice areas</span>
+    </div>
+    <div class="hero-stat">
+      <span class="hs-n">1</span>
+      <span class="hs-l">Senior expert, always</span>
+    </div>
+    <div class="hero-stat">
+      <span class="hs-n">Intl.</span>
+      <span class="hs-l">Availability</span>
+    </div>
+    <div class="hero-stat">
+      <span class="hs-n">0</span>
+      <span class="hs-l">Intermediaries</span>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ ABOUT ══════════════════════════════════════════════ -->
+<section id="about" class="sec">
+  <div class="wrap">
+    <div class="about-grid">
+      <div class="about-text">
+        <div class="eyebrow r">About OPEX</div>
+        <h2 class="sec-title r rd1">One expert.<br/><em>Complete focus.</em></h2>
+        <div class="rule r rd1"></div>
+
+        <p class="about-body r rd2">
+          OPEX — Operational Excellence for Management and Consulting — is built on a single conviction: <strong>the best consulting is personal.</strong> When you engage OPEX, you work with a senior consultant from first meeting to final delivery. No account managers, no junior teams, no dilution of expertise.
+        </p>
+        <p class="about-body r rd3">
+          Decades of hands-on experience across industrial manufacturing, railway infrastructure, and automotive supply chains means the perspective brought to each engagement is genuinely cross-sector. <strong>Problems that appear intractable in one industry often have proven solutions in another</strong> — and that cross-sector vision is something a specialist firm simply cannot offer.
+        </p>
+
+        <blockquote class="about-quote r rd4">
+          <p>"The right expertise, applied directly — no layers, no dilution, no surprises."</p>
+          <cite>— OPEX · Philosophy</cite>
+        </blockquote>
+
+        <div class="expertise-grid r rd4">
+          <div class="exp-tag">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-4 0v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83-2.83l.06-.06A1.65 1.65 0 004.68 15a1.65 1.65 0 00-1.51-1H3a2 2 0 010-4h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 012.83-2.83l.06.06A1.65 1.65 0 009 4.68a1.65 1.65 0 001-1.51V3a2 2 0 014 0v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 2.83l-.06.06A1.65 1.65 0 0019.4 9a1.65 1.65 0 001.51 1H21a2 2 0 010 4h-.09a1.65 1.65 0 00-1.51 1z"/></svg>
+            Industrial Engineering
+          </div>
+          <div class="exp-tag">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="3" width="16" height="13" rx="2"/><path d="M4 11h16M8 3v8M16 3v8"/><circle cx="8.5" cy="17.5" r="2.5"/><circle cx="15.5" cy="17.5" r="2.5"/><path d="M6 20h12"/></svg>
+            Railway Systems
+          </div>
+          <div class="exp-tag">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0"/><path d="M17 17m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0"/><path d="M5 17H3v-6l2-5h9l4 5h1a2 2 0 0 1 2 2v4h-2m-4 0h-6"/></svg>
+            Automotive Industry
+          </div>
+          <div class="exp-tag">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
+            Management & Strategy
+          </div>
+          <div class="exp-tag">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+            Lean · Six Sigma
+          </div>
+          <div class="exp-tag">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/></svg>
+            Change Management
+          </div>
+        </div>
       </div>
-      <div class="prog-track">
-        <div class="prog-fill"></div>
+
+      <!-- Visual frame -->
+      <div class="about-visual">
+        <div class="about-img-frame">
+          <svg class="about-frame-svg" viewBox="0 0 360 450" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice">
+            <rect width="360" height="450" fill="#0F1C3F"/>
+            <!-- Grid -->
+            <line x1="0" y1="90" x2="360" y2="90" stroke="rgba(255,255,255,.04)" stroke-width="1"/>
+            <line x1="0" y1="180" x2="360" y2="180" stroke="rgba(255,255,255,.04)" stroke-width="1"/>
+            <line x1="0" y1="270" x2="360" y2="270" stroke="rgba(255,255,255,.04)" stroke-width="1"/>
+            <line x1="0" y1="360" x2="360" y2="360" stroke="rgba(255,255,255,.04)" stroke-width="1"/>
+            <line x1="90"  y1="0" x2="90"  y2="450" stroke="rgba(255,255,255,.03)" stroke-width="1"/>
+            <line x1="180" y1="0" x2="180" y2="450" stroke="rgba(255,255,255,.03)" stroke-width="1"/>
+            <line x1="270" y1="0" x2="270" y2="450" stroke="rgba(255,255,255,.03)" stroke-width="1"/>
+            <!-- Large orbital -->
+            <ellipse cx="180" cy="200" rx="160" ry="44" stroke="rgba(154,168,191,.15)" stroke-width="1.5" stroke-dasharray="8 6" transform="rotate(-15 180 200)"/>
+            <ellipse cx="180" cy="200" rx="120" ry="32" stroke="rgba(33,85,181,.2)" stroke-width="1" transform="rotate(-15 180 200)"/>
+            <!-- Central O -->
+            <circle cx="180" cy="200" r="70" stroke="rgba(33,85,181,.25)" stroke-width="2"/>
+            <circle cx="180" cy="200" r="45" stroke="rgba(79,163,224,.2)" stroke-width="1.5" stroke-dasharray="5 8"/>
+            <circle cx="180" cy="200" r="20" stroke="rgba(79,163,224,.35)" stroke-width="1.5"/>
+            <!-- Arrow -->
+            <path d="M 180 340 L 180 80" stroke="url(#frameArrow)" stroke-width="1.5" stroke-linecap="round" stroke-dasharray="4 6"/>
+            <path d="M 170 96 L 180 76 L 190 96" fill="none" stroke="rgba(79,163,224,.5)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            <!-- Radial glow -->
+            <radialGradient id="glow" cx="50%" cy="44%" r="45%">
+              <stop offset="0%" stop-color="rgba(33,85,181,.3)"/>
+              <stop offset="100%" stop-color="transparent"/>
+            </radialGradient>
+            <rect width="360" height="450" fill="url(#glow)"/>
+            <!-- Corner marks -->
+            <path d="M 10 10 L 30 10 L 30 30" fill="none" stroke="rgba(79,163,224,.3)" stroke-width="1.5"/>
+            <path d="M 350 10 L 330 10 L 330 30" fill="none" stroke="rgba(79,163,224,.3)" stroke-width="1.5"/>
+            <path d="M 10 440 L 30 440 L 30 420" fill="none" stroke="rgba(79,163,224,.3)" stroke-width="1.5"/>
+            <path d="M 350 440 L 330 440 L 330 420" fill="none" stroke="rgba(79,163,224,.3)" stroke-width="1.5"/>
+            <defs>
+              <linearGradient id="frameArrow" x1="0" y1="1" x2="0" y2="0">
+                <stop offset="0%" stop-color="rgba(33,85,181,.3)"/>
+                <stop offset="100%" stop-color="rgba(79,163,224,.7)"/>
+              </linearGradient>
+            </defs>
+          </svg>
+          <div class="about-frame-label">OPEX Consulting</div>
+        </div>
+        <div class="about-accent"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ SERVICES ══════════════════════════════════════════ -->
+<section id="services" class="sec">
+  <div class="wrap">
+    <div class="services-head">
+      <div>
+        <div class="eyebrow r">Practice Areas</div>
+        <h2 class="sec-title r rd1">Where expertise<br/><em>meets execution</em></h2>
+      </div>
+      <p class="sec-lead r rd2">
+        Four distinct disciplines. One consultant who has worked inside each of them — not studied them from the outside.
+      </p>
+    </div>
+
+    <div class="svc-grid">
+
+      <!-- Industrial -->
+      <div class="svc-card r">
+        <div class="svc-icon-ring">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-4 0v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83-2.83l.06-.06A1.65 1.65 0 004.68 15a1.65 1.65 0 00-1.51-1H3a2 2 0 010-4h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 012.83-2.83l.06.06A1.65 1.65 0 009 4.68a1.65 1.65 0 001-1.51V3a2 2 0 014 0v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 2.83l-.06.06A1.65 1.65 0 0019.4 9a1.65 1.65 0 001.51 1H21a2 2 0 010 4h-.09a1.65 1.65 0 00-1.51 1z"/></svg>
+        </div>
+        <h3 class="svc-title">Industrial Engineering &amp; Operations</h3>
+        <p class="svc-desc">End-to-end operational consulting for manufacturing and industrial environments. Designing efficient production systems, eliminating waste, and building sustainable performance cultures grounded in Lean and Six Sigma methodology.</p>
+        <div class="svc-tags">
+          <span class="svc-tag">Process Design</span>
+          <span class="svc-tag">Lean</span>
+          <span class="svc-tag">Six Sigma</span>
+          <span class="svc-tag">KPI Systems</span>
+          <span class="svc-tag">VSM</span>
+        </div>
+      </div>
+
+      <!-- Railway -->
+      <div class="svc-card r rd1">
+        <div class="svc-icon-ring">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="3" width="16" height="13" rx="2"/><path d="M4 11h16M8 3v8M16 3v8"/><circle cx="8.5" cy="17.5" r="2.5"/><circle cx="15.5" cy="17.5" r="2.5"/><path d="M6 20h12"/></svg>
+        </div>
+        <h3 class="svc-title">Railway Systems &amp; Infrastructure</h3>
+        <p class="svc-desc">Strategic and operational consulting for rail operators, project owners, and infrastructure managers. Covering project governance, capacity planning, maintenance optimisation, and technical specifications — with thorough understanding of rail regulatory frameworks.</p>
+        <div class="svc-tags">
+          <span class="svc-tag">Infrastructure</span>
+          <span class="svc-tag">Project Governance</span>
+          <span class="svc-tag">Capacity Planning</span>
+          <span class="svc-tag">Maintenance</span>
+        </div>
+      </div>
+
+      <!-- Automotive -->
+      <div class="svc-card r">
+        <div class="svc-icon-ring">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0"/><path d="M17 17m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0"/><path d="M5 17H3v-6l2-5h9l4 5h1a2 2 0 0 1 2 2v4h-2m-4 0h-6"/></svg>
+        </div>
+        <h3 class="svc-title">Automotive Industry</h3>
+        <p class="svc-desc">Deep-sector advisory for automotive manufacturers, tier suppliers, and OEM partners. Manufacturing system design, supply chain resilience, quality management, and compliance — drawing on direct experience with high-volume automotive production.</p>
+        <div class="svc-tags">
+          <span class="svc-tag">Manufacturing</span>
+          <span class="svc-tag">Supply Chain</span>
+          <span class="svc-tag">IATF 16949</span>
+          <span class="svc-tag">OEM Relations</span>
+          <span class="svc-tag">Quality Gates</span>
+        </div>
+      </div>
+
+      <!-- Management -->
+      <div class="svc-card r rd1">
+        <div class="svc-icon-ring">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/><line x1="2" y1="20" x2="22" y2="20"/></svg>
+        </div>
+        <h3 class="svc-title">Management &amp; Strategy</h3>
+        <p class="svc-desc">Organisational and strategic advisory for leadership teams navigating transformation, growth, or performance challenges. Strategic planning, organisational design, performance frameworks, and change management — always grounded in operational reality.</p>
+        <div class="svc-tags">
+          <span class="svc-tag">Strategy</span>
+          <span class="svc-tag">Org. Design</span>
+          <span class="svc-tag">Performance</span>
+          <span class="svc-tag">Change Mgmt</span>
+          <span class="svc-tag">Transformation</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ═══ WHY OPEX ════════════════════════════════════════════ -->
+<section id="why" class="sec">
+  <div class="wrap">
+    <div class="why-head">
+      <div>
+        <div class="eyebrow r" style="color:rgba(79,163,224,.8)">Why OPEX</div>
+        <h2 class="sec-title r rd1">The case for<br/><em>a dedicated expert</em></h2>
+        <div class="rule r rd1" style="background:linear-gradient(90deg,var(--sky),transparent)"></div>
+      </div>
+      <p class="sec-lead r rd2">
+        The value of independent consulting is not in the size of the firm. It is in the depth of experience and the directness of the relationship.
+      </p>
+    </div>
+
+    <div class="why-grid">
+      <div class="why-card r">
+        <div class="why-icon">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+        </div>
+        <h3 class="why-title">Senior expertise, every time</h3>
+        <p class="why-desc">The person you spoke to in the first meeting does the work. No handoffs to junior analysts. No dilution of expertise. Full senior-level attention from start to finish.</p>
+      </div>
+      <div class="why-card r rd1">
+        <div class="why-icon">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+        </div>
+        <h3 class="why-title">Agile without the overhead</h3>
+        <p class="why-desc">No internal bureaucracy. No cross-selling. OPEX responds quickly, adapts to shifting priorities, and stays focused entirely on your challenge — not managing internal processes.</p>
+      </div>
+      <div class="why-card r rd2">
+        <div class="why-icon">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10 15.3 15.3 0 01-4-10 15.3 15.3 0 014-10z"/></svg>
+        </div>
+        <h3 class="why-title">Cross-sector vision</h3>
+        <p class="why-desc">Solutions forged across industrial, railway, and automotive sectors carry insight that sector-specialist firms cannot see. The best ideas in rail maintenance often live in automotive quality systems.</p>
+      </div>
+      <div class="why-card r">
+        <div class="why-icon">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg>
+        </div>
+        <h3 class="why-title">Built to be implemented</h3>
+        <p class="why-desc">Deliverables are designed for execution, not filing. OPEX measures success by what changes in your organisation: margins, processes, capability, sustained performance.</p>
+      </div>
+      <div class="why-card r rd1">
+        <div class="why-icon">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+        </div>
+        <h3 class="why-title">Zero institutional bias</h3>
+        <p class="why-desc">No product to sell. No partner ecosystem to feed. As a fully independent advisor, OPEX's recommendations serve one interest only: yours.</p>
+      </div>
+      <div class="why-card r rd2">
+        <div class="why-icon">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>
+        </div>
+        <h3 class="why-title">Direct, candid communication</h3>
+        <p class="why-desc">Complex findings explained plainly. Timelines and risks managed transparently from day one. You always know exactly where the engagement stands.</p>
       </div>
     </div>
 
-    <!-- Services chips -->
-    <div class="services-teaser" aria-label="Areas of expertise">
-      <div class="svc-chip">
-        <!-- Gear icon: industrial -->
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-4 0v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83-2.83l.06-.06A1.65 1.65 0 004.68 15a1.65 1.65 0 00-1.51-1H3a2 2 0 010-4h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 012.83-2.83l.06.06A1.65 1.65 0 009 4.68a1.65 1.65 0 001-1.51V3a2 2 0 014 0v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 2.83l-.06.06A1.65 1.65 0 0019.4 9a1.65 1.65 0 001.51 1H21a2 2 0 010 4h-.09a1.65 1.65 0 00-1.51 1z"/></svg>
-        Industrial Engineering
-      </div>
-      <div class="svc-chip">
-        <!-- Train icon: railway -->
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="3" width="16" height="13" rx="2"/><path d="M4 11h16M8 3v8M16 3v8"/><circle cx="8.5" cy="17.5" r="2.5"/><circle cx="15.5" cy="17.5" r="2.5"/><path d="M6 20h12"/></svg>
-        Railway Systems
-      </div>
-      <div class="svc-chip">
-        <!-- Car icon: automotive -->
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0"/><path d="M17 17m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0"/><path d="M5 17H3v-6l2-5h9l4 5h1a2 2 0 0 1 2 2v4h-2m-4 0h-6"/></svg>
-        Automotive
-      </div>
-      <div class="svc-chip">
-        <!-- Chart icon: management -->
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
-        Management & Strategy
-      </div>
-    </div>
-
-    <!-- Contact -->
-    <div class="contact-block">
-      <p><strong>Available now.</strong> Reach us while the site is being built.</p>
-      <a href="mailto:contact@opex-mc.com" class="contact-email">
-        contact@opex-mc.com
-        <svg class="arr" width="13" height="13" viewBox="0 0 14 14" fill="none" aria-hidden="true">
+    <div class="why-cta-row r">
+      <p class="why-cta-text">Ready to discuss your challenge? <strong>Let's talk.</strong></p>
+      <a href="#contact" class="btn-primary">
+        Get in touch
+        <svg class="arr" width="14" height="14" viewBox="0 0 14 14" fill="none">
           <path d="M1 7h12M8 2l5 5-5 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
         </svg>
       </a>
     </div>
   </div>
+</section>
 
-  <!-- Footer -->
-  <div class="right-footer">
-    <p class="footer-copy">
-      &copy; <span id="yr"></span> &nbsp;OPEX for Management and Consulting &nbsp;·&nbsp; All rights reserved
-    </p>
+<!-- ═══ CONTACT ═════════════════════════════════════════════ -->
+<section id="contact" class="sec">
+  <div class="wrap">
+    <div class="contact-grid">
+      <div>
+        <div class="eyebrow r">Contact</div>
+        <h2 class="sec-title r rd1">Let's work<br/><em>together</em></h2>
+        <div class="rule r rd1"></div>
+        <p class="contact-body r rd2">
+          Every engagement begins with a conversation. Whether you have a clearly defined project or a challenge still taking shape — reach out. The first discussion is always without commitment.
+        </p>
+        <ul class="contact-items r rd3">
+          <li class="ci">
+            <div class="ci-icon">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+            </div>
+            <div>
+              <span class="ci-label">Email</span>
+              <div class="ci-val"><a href="mailto:contact@opex-mc.com">contact@opex-mc.com</a></div>
+            </div>
+          </li>
+          <li class="ci">
+            <div class="ci-icon">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 8.81 19.79 19.79 0 01.01 2.18a2 2 0 012-2.18h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.91 7.91a16 16 0 006.18 6.18l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7a2 2 0 011.72 2.05z"/></svg>
+            </div>
+            <div>
+              <span class="ci-label">Phone</span>
+              <div class="ci-val"><a href="tel:+21600000000">+216 00 000 000</a></div>
+            </div>
+          </li>
+          <li class="ci">
+            <div class="ci-icon">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-2-2 2 2 0 00-2 2v7h-4v-7a6 6 0 016-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
+            </div>
+            <div>
+              <span class="ci-label">LinkedIn</span>
+              <div class="ci-val"><a href="https://linkedin.com" target="_blank" rel="noopener noreferrer">linkedin.com/in/opex-consulting</a></div>
+            </div>
+          </li>
+          <li class="ci">
+            <div class="ci-icon">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13S3 17 3 10a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
+            </div>
+            <div>
+              <span class="ci-label">Location</span>
+              <div class="ci-val">Tunisia — available internationally</div>
+            </div>
+          </li>
+        </ul>
+      </div>
+
+      <div class="contact-form r rd2">
+        <div id="fw">
+          <p class="form-head">Send a message</p>
+          <div class="frow">
+            <div class="fg"><label for="fn">First name</label><input type="text" id="fn" placeholder="Jean" autocomplete="given-name"/></div>
+            <div class="fg"><label for="ln">Last name</label><input type="text" id="ln" placeholder="Dupont" autocomplete="family-name"/></div>
+          </div>
+          <div class="fg"><label for="em">Email address</label><input type="email" id="em" placeholder="jean.dupont@company.com" autocomplete="email"/></div>
+          <div class="fg"><label for="co">Organisation</label><input type="text" id="co" placeholder="Your company or organisation"/></div>
+          <div class="fg">
+            <label for="tp">Area of interest</label>
+            <select id="tp">
+              <option value="" disabled selected>Select a practice area</option>
+              <option>Industrial Engineering &amp; Operations</option>
+              <option>Railway Systems &amp; Infrastructure</option>
+              <option>Automotive Industry</option>
+              <option>Management &amp; Strategy</option>
+              <option>Other / Multiple areas</option>
+            </select>
+          </div>
+          <div class="fg"><label for="ms">Your message</label><textarea id="ms" placeholder="Describe your challenge or project — there is no wrong way to start this conversation."></textarea></div>
+          <button class="btn-form" onclick="sendForm()">Send message</button>
+          <p class="form-note">Your information is treated with complete confidentiality. OPEX will respond within one business day.</p>
+        </div>
+        <div class="form-ok" id="fok">
+          <div class="form-ok-ico">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+          </div>
+          <h3>Message received</h3>
+          <p>Thank you for reaching out. A response will follow within one business day.</p>
+        </div>
+      </div>
+    </div>
   </div>
+</section>
 
-</div>
+<!-- ═══ FOOTER ══════════════════════════════════════════════ -->
+<footer>
+  <div class="ft-inner">
+    <div class="ft-logo">
+      <img src="opex.png" alt="OPEX Consulting"/>
+    </div>
+    <p class="ft-copy">
+      &copy; <span id="yr"></span> &nbsp;OPEX for Management and Consulting &nbsp;·&nbsp; Solo consultant &nbsp;·&nbsp; All rights reserved
+    </p>
+    <div class="ft-links">
+      <a href="mailto:contact@opex-mc.com">Email</a>
+      <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+      <a href="#hero">Top ↑</a>
+    </div>
+  </div>
+</footer>
 
 <script>
+/* Year */
 document.getElementById('yr').textContent = new Date().getFullYear();
 
-/* Percentage counter matching the CSS animation */
-(function(){
-  const el = document.getElementById('pct');
-  const target = 72, delay = 1300, dur = 2800;
-  let start = null;
-  function step(ts){
-    if(!start) start = ts;
-    const p = Math.min((ts - start) / dur, 1);
-    const eased = 1 - Math.pow(1 - p, 3);
-    el.textContent = Math.round(eased * target) + '%';
-    if(p < 1) requestAnimationFrame(step);
+/* Nav scroll */
+const nav = document.getElementById('nav');
+window.addEventListener('scroll', () => nav.classList.toggle('scrolled', scrollY > 50), {passive:true});
+
+/* Mobile menu */
+const burger = document.getElementById('burger'), mob = document.getElementById('mob');
+burger.addEventListener('click', () => {
+  const o = mob.classList.toggle('open');
+  burger.classList.toggle('open', o);
+  burger.setAttribute('aria-expanded', o);
+  document.body.style.overflow = o ? 'hidden' : '';
+});
+function closeMob() {
+  mob.classList.remove('open');
+  burger.classList.remove('open');
+  burger.setAttribute('aria-expanded', 'false');
+  document.body.style.overflow = '';
+}
+document.addEventListener('keydown', e => { if(e.key==='Escape') closeMob(); });
+
+/* Scroll reveal */
+const ro = new IntersectionObserver(entries => {
+  entries.forEach(e => { if(e.isIntersecting){ e.target.classList.add('on'); ro.unobserve(e.target); }});
+}, { threshold:.1, rootMargin:'0px 0px -30px 0px' });
+document.querySelectorAll('.r').forEach(el => ro.observe(el));
+document.querySelectorAll('#hero .r').forEach(el => el.classList.add('on'));
+
+/* Contact form */
+function sendForm() {
+  const em = document.getElementById('em').value.trim();
+  const ms = document.getElementById('ms').value.trim();
+  if (!em || !ms) {
+    const bad = !em ? document.getElementById('em') : document.getElementById('ms');
+    bad.style.borderColor = '#c0392b'; bad.focus();
+    setTimeout(() => bad.style.borderColor = '', 2200);
+    return;
   }
-  setTimeout(() => requestAnimationFrame(step), delay);
-})();
+  document.getElementById('fw').style.display = 'none';
+  document.getElementById('fok').style.display = 'block';
+}
+document.querySelectorAll('input,textarea').forEach(el =>
+  el.addEventListener('input', () => el.style.borderColor = ''));
 </script>
 </body>
 </html>
