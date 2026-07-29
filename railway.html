@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Railway Systems &amp; Infrastructure | OPEX Consulting</title>
+<meta name="description" content="OPEX railway consulting — seating systems, onboard electrical architecture, and hands-on engineering depth across rail programmes."/>
+
+<link rel="stylesheet" href="styles.css"/>
+
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,700;1,400;1,500&family=Source+Sans+3:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+</head>
+<body>
+
+<!-- ═══ NAV ═══════════════════════════════════════════════ -->
+<nav id="nav">
+  <a href="index.html" class="nav-logo">
+    <img src="opex.png" alt="OPEX Consulting"/>
+  </a>
+  <ul class="nav-links">
+    <li><a href="index.html#about">About</a></li>
+    <li class="nav-drop">
+      <a href="index.html#services" class="nav-drop-link">
+        Services
+        <svg class="chevron" width="10" height="6" viewBox="0 0 10 6" fill="none"><path d="M1 1l4 4 4-4" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </a>
+      <div class="nav-drop-menu">
+        <a href="railway.html">Railway Systems</a>
+        <a href="automotive.html">Automotive Industry</a>
+      </div>
+    </li>
+    <li><a href="index.html#why">Why OPEX</a></li>
+    <li><a href="index.html#contact" class="nav-cta">Contact Us</a></li>
+  </ul>
+  <button class="burger" id="burger" aria-label="Open menu" aria-expanded="false">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+<div class="mob-menu" id="mob">
+  <a href="index.html#about" onclick="closeMob()">About</a>
+  <a href="index.html#services" onclick="closeMob()">Services</a>
+  <div class="mob-submenu">
+    <a href="railway.html">Railway Systems</a>
+    <a href="automotive.html">Automotive Industry</a>
+  </div>
+  <a href="index.html#why" onclick="closeMob()">Why OPEX</a>
+  <a href="index.html#contact" onclick="closeMob()">Contact</a>
+</div>
+
+<!-- ═══ PAGE HEADER ═══════════════════════════════════════ -->
+<section class="page-header">
+  <div class="page-header-inner">
+    <div class="ph-crumb r"><a href="index.html">OPEX</a>&nbsp;<span>/</span>&nbsp;<span>Railway Systems</span></div>
+    <h1 class="ph-title r rd1">Railway Systems <em>&amp; Infrastructure</em></h1>
+    <p class="ph-lead r rd2">
+      From vehicle interiors to onboard electrical architecture, OPEX brings hands-on engineering depth to rail programmes — grounded in direct teardown analysis, supplier qualification, and fleet-wide rollouts, not just slide-deck advisory.
+    </p>
+  </div>
+</section>
+
+<!-- ═══ SCROLL VIDEO 01 — TRAIN TEARDOWN ═══════════════════ -->
+<section class="scrub-video">
+  <div class="scrub-sticky">
+    <video class="scrub-video-el" src="train-video.mp4" muted playsinline preload="auto"></video>
+    <div class="scrub-overlay"></div>
+    <div class="scrub-caption">
+      <div class="eyebrow">01 — Field Work</div>
+      <h2 class="scrub-caption-title">Train Teardown</h2>
+    </div>
+    <div class="scrub-hint">
+      Scroll
+      <svg width="14" height="18" viewBox="0 0 14 18" fill="none"><path d="M7 1v14M1 9l6 6 6-6" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </div>
+  </div>
+</section>
+<section class="sec" style="padding-top: clamp(3rem, 6vw, 5rem); padding-bottom: clamp(3rem, 6vw, 5rem);">
+  <div class="wrap">
+    <p class="svc-desc r" style="max-width:680px; font-size:.95rem;">
+      A full vehicle teardown, panel by panel and system by system — the same rigour OPEX brings to every client programme. Understanding how a train is actually assembled, and where it tends to fail, is what separates real engineering judgment from programme-level advisory.
+    </p>
+    <ul class="vs-points r rd1" style="margin-top:1.2rem; max-width:680px;">
+      <li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg> Structural &amp; interior panel assessment</li>
+      <li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg> Component-level wear &amp; failure analysis</li>
+      <li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg> Benchmarking against OEM specifications</li>
+    </ul>
+  </div>
+</section>
+
+<!-- ═══ SCROLL VIDEO 02 — SEAT TEARDOWN ═════════════════════ -->
+<section class="scrub-video">
+  <div class="scrub-sticky">
+    <video class="scrub-video-el" src="seat-video.mp4" muted playsinline preload="auto"></video>
+    <div class="scrub-overlay"></div>
+    <div class="scrub-caption">
+      <div class="eyebrow">02 — Field Work</div>
+      <h2 class="scrub-caption-title">Seat Teardown</h2>
+    </div>
+    <div class="scrub-hint">
+      Scroll
+      <svg width="14" height="18" viewBox="0 0 14 18" fill="none"><path d="M7 1v14M1 9l6 6 6-6" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </div>
+  </div>
+</section>
+<section class="sec" style="background:var(--off); padding-top: clamp(3rem, 6vw, 5rem); padding-bottom: clamp(3rem, 6vw, 5rem);">
+  <div class="wrap">
+    <p class="svc-desc r" style="max-width:680px; font-size:.95rem;">
+      Passenger seating disassembled and evaluated frame, foam, and upholstery — against comfort, safety, and durability standards. This close-in view of mounting hardware and materials is exactly the level of detail that shapes credible seating recommendations.
+    </p>
+    <ul class="vs-points r rd1" style="margin-top:1.2rem; max-width:680px;">
+      <li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg> Frame &amp; mounting hardware inspection</li>
+      <li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg> Foam density &amp; upholstery durability review</li>
+      <li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg> Fire &amp; crash safety cross-checks</li>
+    </ul>
+  </div>
+</section>
+
+
+<!-- ═══ RAIL CAPABILITIES — SEATING & ELECTRICAL ═════════ -->
+<section class="sec" style="background:var(--off); border-top:1px solid var(--border);">
+  <div class="wrap">
+    <div class="services-head">
+      <div>
+        <div class="eyebrow r">Rail Sub-Specialities</div>
+        <h2 class="sec-title r rd1">Where OPEX goes<br/><em>deep in rail</em></h2>
+      </div>
+      <p class="sec-lead r rd2">
+        Beyond programme-level advisory, OPEX brings hands-on engineering depth to two disciplines that shape passenger experience and vehicle reliability: seating systems and onboard electrical architecture.
+      </p>
+    </div>
+
+    <div class="cap-grid">
+
+      <!-- Seating Systems -->
+      <div class="cap-card r rd1">
+        <div class="svc-icon-ring">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 11V5a2 2 0 0 1 2-2h6a2 2 0 0 1 2 2v6"/><path d="M4 11h16v5a1 1 0 0 1-1 1h-1v3M6 20v-3H5a1 1 0 0 1-1-1v-5"/><path d="M9 17h6"/></svg>
+        </div>
+        <h3 class="svc-title">Seating Systems</h3>
+        <p class="svc-desc">
+          End-to-end consulting on passenger seating — from concept and supplier selection through to fleet-wide rollout. OPEX balances comfort, capacity, weight, and certification requirements so seating programmes stay on schedule and on budget.
+        </p>
+        <ul class="cap-list">
+          <li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg> Ergonomics &amp; passenger comfort standards</li>
+          <li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg> Fire &amp; crash safety compliance (EN 45545 / EN 12663)</li>
+          <li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg> Supplier selection, qualification &amp; audits</li>
+          <li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg> Capacity vs. comfort layout optimisation</li>
+          <li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg> Modular platform strategy across fleets</li>
+          <li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg> Weight &amp; cost-down engineering</li>
+        </ul>
+      </div>
+
+      <!-- Electrical Systems -->
+      <div class="cap-card r rd2">
+        <div class="svc-icon-ring">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+        </div>
+        <h3 class="svc-title">Electrical Systems</h3>
+        <p class="svc-desc">
+          Advisory on onboard electrical architecture — power distribution, wiring integration, and passenger-facing systems — helping operators and manufacturers deliver reliable, compliant, and energy-efficient rolling stock.
+        </p>
+        <ul class="cap-list">
+          <li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg> Onboard power &amp; auxiliary architecture</li>
+          <li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg> Wiring harness design &amp; integration</li>
+          <li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg> EMC &amp; EN 50121 compliance</li>
+          <li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg> Lighting &amp; passenger information systems</li>
+          <li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg> Energy efficiency &amp; obsolescence management</li>
+          <li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg> Integration with train control &amp; signalling</li>
+        </ul>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ═══ CTA BAND ══════════════════════════════════════════ -->
+<section class="cta-band">
+  <div class="cta-band-inner">
+    <p class="cta-band-title r">Have a railway programme that needs <em>senior-level judgment?</em></p>
+    <a href="index.html#contact" class="btn-primary r rd1">Start a conversation <span class="arr">→</span></a>
+  </div>
+</section>
+
+<!-- ═══ FOOTER ══════════════════════════════════════════════ -->
+<footer>
+  <div class="ft-inner">
+    <div class="ft-logo">
+      <img src="opex.png" alt="OPEX Consulting"/>
+    </div>
+    <p class="ft-copy">
+      &copy; <span id="yr"></span> &nbsp;OPEX for Management and Consulting &nbsp;·&nbsp; Solo consultant &nbsp;·&nbsp; All rights reserved
+    </p>
+    <div class="ft-links">
+      <a href="mailto:contact@opex-mc.com">Email</a>
+      <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+      <a href="#">Top ↑</a>
+    </div>
+  </div>
+</footer>
+
+<script src="script.js"></script>
+</body>
+</html>

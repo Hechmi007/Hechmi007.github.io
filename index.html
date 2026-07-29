@@ -1,0 +1,716 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>OPEX — Operational Excellence for Management and Consulting</title>
+    <meta name="description" content="OPEX delivers senior-level consulting across industrial engineering, railway systems, automotive, and management. One expert. Direct engagement. Measurable results." />
+
+    <link rel="stylesheet" href="styles.css" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,700;1,400;1,500&family=Source+Sans+3:wght@300;400;500;600&display=swap" rel="stylesheet" />
+
+    <style>
+        /* ─── HERO FULL-BLEED IMAGE ─── */
+        #hero {
+            position: relative;
+            min-height: 100svh;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            background: var(--navy);
+            /* fallback */
+        }
+
+        /* remove grid lines from before/after since image covers */
+        #hero::before,
+        #hero::after {
+            display: none;
+        }
+
+        /* right column becomes the full-bleed image container */
+        .hero-right {
+            position: absolute;
+            inset: 0;
+            z-index: 0;
+            padding: 0;
+            overflow: hidden;
+        }
+
+        /* image covers the entire hero */
+        .hero-photo {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: center 30%;
+            opacity: 0;
+            animation: fadeIn 1.1s var(--ease) .3s forwards;
+            /* remove the left-to-right mask */
+            -webkit-mask-image: none;
+            mask-image: none;
+        }
+
+        /* dark overlay for text readability */
+        .hero-photo-tint {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(135deg,
+                    rgba(22, 38, 90, .70) 0%,
+                    rgba(22, 38, 90, .35) 45%,
+                    rgba(22, 38, 90, .15) 75%,
+                    rgba(22, 38, 90, .05) 100%);
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        /* left content sits on top */
+        .hero-left {
+            position: relative;
+            z-index: 2;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            padding: clamp(6rem, 16vh, 9.5rem) var(--px) clamp(6.5rem, 17vh, 8rem);
+            min-height: 0;
+            max-width: 54%;
+        }
+
+        /* stat bar still at the bottom */
+        .hero-stats {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            z-index: 3;
+            border-top: 1px solid rgba(255, 255, 255, .08);
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            background: rgba(20, 36, 80, .48);
+            backdrop-filter: blur(8px);
+            height: clamp(64px, 11vh, 88px);
+        }
+
+        @media (max-width: 900px) {
+            .hero-left {
+                max-width: 100%;
+                padding: 8rem var(--px) 8.5rem;
+            }
+            .hero-stats {
+                grid-template-columns: repeat(2, 1fr);
+                position: relative;
+            }
+        }
+        @media (max-width: 520px) {
+            .hero-stats {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            .hero-stat {
+                padding: 1rem;
+            }
+        }
+
+        /* keep existing hero-left styles */
+        .hero-eyebrow {
+            display: inline-flex;
+            align-items: center;
+            gap: .7rem;
+            font-size: clamp(.64rem, 1.3vh, .72rem);
+            font-weight: 600;
+            letter-spacing: .18em;
+            text-transform: uppercase;
+            color: var(--sky);
+            margin-bottom: clamp(1rem, 2.2vh, 1.8rem);
+        }
+        .hero-eyebrow::before {
+            content: '';
+            width: 28px;
+            height: 1px;
+            background: var(--sky);
+        }
+
+        .hero-logo {
+            margin-bottom: clamp(1.2rem, 2.6vh, 2.2rem);
+        }
+        .hero-logo img {
+            width: clamp(180px, 20vw, 320px);
+            height: auto;
+            filter: brightness(0) invert(1) drop-shadow(0 4px 22px rgba(79, 180, 239, .4));
+        }
+
+        .hero-h1 {
+            font-family: var(--fd);
+            font-size: clamp(1.8rem, 5.2vh, 3.6rem);
+            font-weight: 400;
+            line-height: 1.14;
+            color: #fff;
+            letter-spacing: -.01em;
+            margin-bottom: clamp(.9rem, 2vh, 1.5rem);
+        }
+        .hero-h1 em {
+            font-style: italic;
+            color: var(--sky);
+        }
+
+        .hero-sub {
+            font-size: clamp(.85rem, 1.7vh, 1rem);
+            font-weight: 300;
+            line-height: 1.75;
+            color: rgba(255, 255, 255, .6);
+            max-width: 420px;
+            margin-bottom: clamp(1.4rem, 3vh, 2.4rem);
+            border-left: 2px solid rgba(79, 163, 224, .3);
+            padding-left: 1.1rem;
+        }
+
+        .hero-actions {
+            display: flex;
+            align-items: center;
+            gap: 1.2rem;
+            flex-wrap: wrap;
+        }
+
+        .btn-primary {
+            display: inline-flex;
+            align-items: center;
+            gap: .55rem;
+            padding: .8rem 1.8rem;
+            background: var(--blue);
+            color: #fff;
+            font-size: .85rem;
+            font-weight: 600;
+            letter-spacing: .06em;
+            text-decoration: none;
+            transition: background .22s, box-shadow .22s, transform .18s;
+        }
+        .btn-primary .arr {
+            transition: transform .25s var(--ease);
+        }
+        .btn-primary:hover {
+            background: var(--sky);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 22px rgba(79, 163, 224, .4);
+        }
+        .btn-primary:hover .arr {
+            transform: translateX(4px);
+        }
+
+        .btn-outline {
+            display: inline-flex;
+            align-items: center;
+            gap: .5rem;
+            padding: .8rem 1.8rem;
+            border: 1px solid rgba(255, 255, 255, .25);
+            color: rgba(255, 255, 255, .8);
+            font-size: .85rem;
+            font-weight: 400;
+            letter-spacing: .06em;
+            text-decoration: none;
+            transition: border-color .22s, color .22s;
+        }
+        .btn-outline:hover {
+            border-color: var(--sky);
+            color: #fff;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- ═══ NAV ═══════════════════════════════════════════════ -->
+    <nav id="nav">
+        <a href="#hero" class="nav-logo">
+            <img src="opex.png" alt="OPEX Consulting" />
+        </a>
+        <ul class="nav-links">
+            <li><a href="#about">About</a></li>
+            <li class="nav-drop">
+                <a href="#services" class="nav-drop-link">
+                    Services
+                    <svg class="chevron" width="10" height="6" viewBox="0 0 10 6" fill="none"><path d="M1 1l4 4 4-4" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                </a>
+                <div class="nav-drop-menu">
+                    <a href="railway.html">Railway Systems</a>
+                    <a href="automotive.html">Automotive Industry</a>
+                </div>
+            </li>
+            <li><a href="#why">Why OPEX</a></li>
+            <li><a href="#contact" class="nav-cta">Contact Us</a></li>
+        </ul>
+        <button class="burger" id="burger" aria-label="Open menu" aria-expanded="false">
+            <span></span><span></span><span></span>
+        </button>
+    </nav>
+    <div class="mob-menu" id="mob">
+        <a href="#about" onclick="closeMob()">About</a>
+        <a href="#services" onclick="closeMob()">Services</a>
+        <div class="mob-submenu">
+            <a href="railway.html">Railway Systems</a>
+            <a href="automotive.html">Automotive Industry</a>
+        </div>
+        <a href="#why" onclick="closeMob()">Why OPEX</a>
+        <a href="#contact" onclick="closeMob()">Contact</a>
+    </div>
+
+    <!-- ═══ HERO — FULL-BLEED IMAGE ══════════════════════════ -->
+    <section id="hero">
+
+        <!-- full-bleed image -->
+        <div class="hero-right">
+            <img src="images.png" alt="" class="hero-photo" />
+            <div class="hero-photo-tint"></div>
+        </div>
+
+        <!-- content overlay -->
+        <div class="hero-left">
+            <div class="hero-eyebrow r">Operational Excellence for Management and Consulting</div>
+
+            <div class="hero-logo r rd1">
+                <img src="opex.png" alt="OPEX — Operational Excellence for Management and Consulting" />
+            </div>
+
+            <h1 class="hero-h1 r rd2">
+                Senior expertise.<br />
+                <em>Direct engagement.</em><br />
+                Real results.
+            </h1>
+
+            <p class="hero-sub r rd3">
+                OPEX brings decades of hands-on cross-industry experience directly to your organisation — industrial engineering, railway infrastructure, automotive systems, and management strategy. One expert. No intermediaries.
+            </p>
+
+            <div class="hero-actions r rd4">
+                <a href="#contact" class="btn-primary">
+                    Start a conversation
+                    <svg class="arr" width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
+                        <path d="M1 7h12M8 2l5 5-5 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+                    </svg>
+                </a>
+                <a href="#services" class="btn-outline">Our services</a>
+            </div>
+        </div>
+
+        <!-- Stat bar -->
+        <div class="hero-stats">
+            <div class="hero-stat">
+                <span class="hs-n">4</span>
+                <span class="hs-l">Practice areas</span>
+            </div>
+            <div class="hero-stat">
+                <span class="hs-n">1</span>
+                <span class="hs-l">Senior expert, always</span>
+            </div>
+            <div class="hero-stat">
+                <span class="hs-n">Intl.</span>
+                <span class="hs-l">Availability</span>
+            </div>
+            <div class="hero-stat">
+                <span class="hs-n">0</span>
+                <span class="hs-l">Intermediaries</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- ═══ ABOUT ══════════════════════════════════════════════ -->
+    <section id="about" class="sec">
+        <div class="wrap">
+            <div class="about-grid">
+                <div class="about-text">
+                    <div class="eyebrow r">About OPEX</div>
+                    <h2 class="sec-title r rd1">One expert.<br /><em>Complete focus.</em></h2>
+                    <div class="rule r rd1"></div>
+
+                    <p class="about-body r rd2">
+                        OPEX — Operational Excellence for Management and Consulting — is built on a single conviction: <strong>the best consulting is personal.</strong> When you engage OPEX, you work with a senior consultant from first meeting to final delivery. No account managers, no junior teams, no dilution of expertise.
+                    </p>
+                    <p class="about-body r rd3">
+                        Decades of hands-on experience across industrial manufacturing, railway infrastructure, and automotive supply chains means the perspective brought to each engagement is genuinely cross-sector. <strong>Problems that appear intractable in one industry often have proven solutions in another</strong> — and that cross-sector vision is something a specialist firm simply cannot offer.
+                    </p>
+
+                    <blockquote class="about-quote r rd4">
+                        <p>"The right expertise, applied directly — no layers, no dilution, no surprises."</p>
+                        <cite>— OPEX · Philosophy</cite>
+                    </blockquote>
+
+                    <div class="expertise-grid r rd4">
+                        <div class="exp-tag">
+                            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-4 0v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83-2.83l.06-.06A1.65 1.65 0 004.68 15a1.65 1.65 0 00-1.51-1H3a2 2 0 010-4h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 012.83-2.83l.06.06A1.65 1.65 0 009 4.68a1.65 1.65 0 001-1.51V3a2 2 0 014 0v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 2.83l-.06.06A1.65 1.65 0 0019.4 9a1.65 1.65 0 001.51 1H21a2 2 0 010 4h-.09a1.65 1.65 0 00-1.51 1z"/></svg>
+                            Industrial Engineering
+                        </div>
+                        <div class="exp-tag">
+                            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="3" width="16" height="13" rx="2"/><path d="M4 11h16M8 3v8M16 3v8"/><circle cx="8.5" cy="17.5" r="2.5"/><circle cx="15.5" cy="17.5" r="2.5"/><path d="M6 20h12"/></svg>
+                            Railway Systems
+                        </div>
+                        <div class="exp-tag">
+                            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0"/><path d="M17 17m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0"/><path d="M5 17H3v-6l2-5h9l4 5h1a2 2 0 0 1 2 2v4h-2m-4 0h-6"/></svg>
+                            Automotive Industry
+                        </div>
+                        <div class="exp-tag">
+                            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
+                            Management & Strategy
+                        </div>
+                        <div class="exp-tag">
+                            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+                            Lean · Six Sigma
+                        </div>
+                        <div class="exp-tag">
+                            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/></svg>
+                            Change Management
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Visual frame -->
+                <div class="about-visual">
+                    <div class="about-img-frame">
+                        <svg class="about-frame-svg" viewBox="0 0 360 450" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice">
+                            <rect width="360" height="450" fill="#16265A"/>
+                            <line x1="0" y1="90" x2="360" y2="90" stroke="rgba(255,255,255,.04)" stroke-width="1"/>
+                            <line x1="0" y1="180" x2="360" y2="180" stroke="rgba(255,255,255,.04)" stroke-width="1"/>
+                            <line x1="0" y1="270" x2="360" y2="270" stroke="rgba(255,255,255,.04)" stroke-width="1"/>
+                            <line x1="0" y1="360" x2="360" y2="360" stroke="rgba(255,255,255,.04)" stroke-width="1"/>
+                            <line x1="90"  y1="0" x2="90"  y2="450" stroke="rgba(255,255,255,.03)" stroke-width="1"/>
+                            <line x1="180" y1="0" x2="180" y2="450" stroke="rgba(255,255,255,.03)" stroke-width="1"/>
+                            <line x1="270" y1="0" x2="270" y2="450" stroke="rgba(255,255,255,.03)" stroke-width="1"/>
+                            <ellipse cx="180" cy="200" rx="160" ry="44" stroke="rgba(154,168,191,.15)" stroke-width="1.5" stroke-dasharray="8 6" transform="rotate(-15 180 200)"/>
+                            <ellipse cx="180" cy="200" rx="120" ry="32" stroke="rgba(33,85,181,.2)" stroke-width="1" transform="rotate(-15 180 200)"/>
+                            <circle cx="180" cy="200" r="70" stroke="rgba(33,85,181,.25)" stroke-width="2"/>
+                            <circle cx="180" cy="200" r="45" stroke="rgba(79,163,224,.2)" stroke-width="1.5" stroke-dasharray="5 8"/>
+                            <circle cx="180" cy="200" r="20" stroke="rgba(79,163,224,.35)" stroke-width="1.5"/>
+                            <path d="M 180 340 L 180 80" stroke="url(#frameArrow)" stroke-width="1.5" stroke-linecap="round" stroke-dasharray="4 6"/>
+                            <path d="M 170 96 L 180 76 L 190 96" fill="none" stroke="rgba(79,163,224,.5)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                            <radialGradient id="glow" cx="50%" cy="44%" r="45%">
+                                <stop offset="0%" stop-color="rgba(33,85,181,.3)"/>
+                                <stop offset="100%" stop-color="transparent"/>
+                            </radialGradient>
+                            <rect width="360" height="450" fill="url(#glow)"/>
+                            <path d="M 10 10 L 30 10 L 30 30" fill="none" stroke="rgba(79,163,224,.3)" stroke-width="1.5"/>
+                            <path d="M 350 10 L 330 10 L 330 30" fill="none" stroke="rgba(79,163,224,.3)" stroke-width="1.5"/>
+                            <path d="M 10 440 L 30 440 L 30 420" fill="none" stroke="rgba(79,163,224,.3)" stroke-width="1.5"/>
+                            <path d="M 350 440 L 330 440 L 330 420" fill="none" stroke="rgba(79,163,224,.3)" stroke-width="1.5"/>
+                            <defs>
+                                <linearGradient id="frameArrow" x1="0" y1="1" x2="0" y2="0">
+                                    <stop offset="0%" stop-color="rgba(33,85,181,.3)"/>
+                                    <stop offset="100%" stop-color="rgba(79,163,224,.7)"/>
+                                </linearGradient>
+                            </defs>
+                        </svg>
+                        <div class="about-frame-label">OPEX Consulting</div>
+                    </div>
+                    <div class="about-accent"></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ═══ SERVICES ══════════════════════════════════════════ -->
+    <section id="services" class="sec">
+        <div class="wrap">
+            <div class="services-head">
+                <div>
+                    <div class="eyebrow r">Practice Areas</div>
+                    <h2 class="sec-title r rd1">Where expertise<br /><em>meets execution</em></h2>
+                </div>
+                <p class="sec-lead r rd2">
+                    Four distinct disciplines. One consultant who has worked inside each of them — not studied them from the outside.
+                </p>
+            </div>
+
+            <div class="svc-grid">
+
+                <!-- Industrial -->
+                <div class="svc-card r">
+                    <div class="svc-icon-ring">
+                        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-4 0v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83-2.83l.06-.06A1.65 1.65 0 004.68 15a1.65 1.65 0 00-1.51-1H3a2 2 0 010-4h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 012.83-2.83l.06.06A1.65 1.65 0 009 4.68a1.65 1.65 0 001-1.51V3a2 2 0 014 0v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 2.83l-.06.06A1.65 1.65 0 0019.4 9a1.65 1.65 0 001.51 1H21a2 2 0 010 4h-.09a1.65 1.65 0 00-1.51 1z"/></svg>
+                    </div>
+                    <h3 class="svc-title">Industrial Engineering &amp; Operations</h3>
+                    <p class="svc-desc">End-to-end operational consulting for manufacturing and industrial environments. Designing efficient production systems, eliminating waste, and building sustainable performance cultures grounded in Lean and Six Sigma methodology.</p>
+                    <div class="svc-tags">
+                        <span class="svc-tag">Process Design</span>
+                        <span class="svc-tag">Lean</span>
+                        <span class="svc-tag">Six Sigma</span>
+                        <span class="svc-tag">KPI Systems</span>
+                        <span class="svc-tag">VSM</span>
+                    </div>
+                </div>
+
+                <!-- Railway -->
+                <div class="svc-card r rd1">
+                    <div class="svc-icon-ring">
+                        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="3" width="16" height="13" rx="2"/><path d="M4 11h16M8 3v8M16 3v8"/><circle cx="8.5" cy="17.5" r="2.5"/><circle cx="15.5" cy="17.5" r="2.5"/><path d="M6 20h12"/></svg>
+                    </div>
+                    <h3 class="svc-title">Railway Systems &amp; Infrastructure</h3>
+                    <p class="svc-desc">Strategic and operational consulting for rail operators, project owners, and infrastructure managers. Covering project governance, capacity planning, maintenance optimisation, and technical specifications — with thorough understanding of rail regulatory frameworks.</p>
+                    <div class="svc-tags">
+                        <span class="svc-tag">Infrastructure</span>
+                        <span class="svc-tag">Project Governance</span>
+                        <span class="svc-tag">Capacity Planning</span>
+                        <span class="svc-tag">Maintenance</span>
+                    </div>
+                    <a href="railway.html" class="svc-more">Explore Railway Systems →</a>
+                </div>
+
+                <!-- Automotive -->
+                <div class="svc-card r" id="automotive">
+                    <div class="svc-icon-ring">
+                        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0"/><path d="M17 17m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0"/><path d="M5 17H3v-6l2-5h9l4 5h1a2 2 0 0 1 2 2v4h-2m-4 0h-6"/></svg>
+                    </div>
+                    <h3 class="svc-title">Automotive Industry</h3>
+                    <p class="svc-desc">Deep-sector advisory for automotive manufacturers, tier suppliers, and OEM partners. Manufacturing system design, supply chain resilience, quality management, and compliance — drawing on direct experience with high-volume automotive production.</p>
+                    <div class="svc-tags">
+                        <span class="svc-tag">Manufacturing</span>
+                        <span class="svc-tag">Supply Chain</span>
+                        <span class="svc-tag">IATF 16949</span>
+                        <span class="svc-tag">OEM Relations</span>
+                        <span class="svc-tag">Quality Gates</span>
+                    </div>
+                    <a href="automotive.html" class="svc-more">Explore Automotive →</a>
+                </div>
+
+                <!-- Management -->
+                <div class="svc-card r rd1">
+                    <div class="svc-icon-ring">
+                        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/><line x1="2" y1="20" x2="22" y2="20"/></svg>
+                    </div>
+                    <h3 class="svc-title">Management &amp; Strategy</h3>
+                    <p class="svc-desc">Organisational and strategic advisory for leadership teams navigating transformation, growth, or performance challenges. Strategic planning, organisational design, performance frameworks, and change management — always grounded in operational reality.</p>
+                    <div class="svc-tags">
+                        <span class="svc-tag">Strategy</span>
+                        <span class="svc-tag">Org. Design</span>
+                        <span class="svc-tag">Performance</span>
+                        <span class="svc-tag">Change Mgmt</span>
+                        <span class="svc-tag">Transformation</span>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- ═══ WHY OPEX ══════════════════════════════════════════ -->
+    <section id="why" class="sec">
+        <div class="wrap">
+            <div class="why-head">
+                <div>
+                    <div class="eyebrow r">Why OPEX</div>
+                    <h2 class="sec-title r rd1">The case for<br /><em>a dedicated expert</em></h2>
+                    <div class="rule r rd1" style="background:linear-gradient(90deg,var(--blue),transparent)"></div>
+                </div>
+                <p class="sec-lead r rd2">
+                    The value of independent consulting is not in the size of the firm. It is in the depth of experience and the directness of the relationship.
+                </p>
+            </div>
+
+            <div class="why-grid">
+                <div class="why-card r">
+                    <div class="why-glow" aria-hidden="true"></div>
+                    <div class="why-card-inner">
+                        <div class="why-icon">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                        </div>
+                        <h3 class="why-title">Senior expertise, every time</h3>
+                        <p class="why-desc">The person you spoke to in the first meeting does the work. No handoffs to junior analysts. No dilution of expertise. Full senior-level attention from start to finish.</p>
+                    </div>
+                </div>
+                <div class="why-card r rd1">
+                    <div class="why-glow" aria-hidden="true"></div>
+                    <div class="why-card-inner">
+                        <div class="why-icon">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+                        </div>
+                        <h3 class="why-title">Agile without the overhead</h3>
+                        <p class="why-desc">No internal bureaucracy. No cross-selling. OPEX responds quickly, adapts to shifting priorities, and stays focused entirely on your challenge — not managing internal processes.</p>
+                    </div>
+                </div>
+                <div class="why-card r rd2">
+                    <div class="why-glow" aria-hidden="true"></div>
+                    <div class="why-card-inner">
+                        <div class="why-icon">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10 15.3 15.3 0 01-4-10 15.3 15.3 0 014-10z"/></svg>
+                        </div>
+                        <h3 class="why-title">Cross-sector vision</h3>
+                        <p class="why-desc">Solutions forged across industrial, railway, and automotive sectors carry insight that sector-specialist firms cannot see. The best ideas in rail maintenance often live in automotive quality systems.</p>
+                    </div>
+                </div>
+                <div class="why-card r">
+                    <div class="why-glow" aria-hidden="true"></div>
+                    <div class="why-card-inner">
+                        <div class="why-icon">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg>
+                        </div>
+                        <h3 class="why-title">Built to be implemented</h3>
+                        <p class="why-desc">Deliverables are designed for execution, not filing. OPEX measures success by what changes in your organisation: margins, processes, capability, sustained performance.</p>
+                    </div>
+                </div>
+                <div class="why-card r rd1">
+                    <div class="why-glow" aria-hidden="true"></div>
+                    <div class="why-card-inner">
+                        <div class="why-icon">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+                        </div>
+                        <h3 class="why-title">Zero institutional bias</h3>
+                        <p class="why-desc">No product to sell. No partner ecosystem to feed. As a fully independent advisor, OPEX's recommendations serve one interest only: yours.</p>
+                    </div>
+                </div>
+                <div class="why-card r rd2">
+                    <div class="why-glow" aria-hidden="true"></div>
+                    <div class="why-card-inner">
+                        <div class="why-icon">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>
+                        </div>
+                        <h3 class="why-title">Direct, candid communication</h3>
+                        <p class="why-desc">Complex findings explained plainly. Timelines and risks managed transparently from day one. You always know exactly where the engagement stands.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="why-cta-row r">
+                <p class="why-cta-text">Ready to discuss your challenge? <strong>Let's talk.</strong></p>
+                <a href="#contact" class="btn-primary">
+                    Get in touch
+                    <svg class="arr" width="14" height="14" viewBox="0 0 14 14" fill="none">
+                        <path d="M1 7h12M8 2l5 5-5 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+                    </svg>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- ═══ CONTACT ═════════════════════════════════════════════ -->
+    <section id="contact" class="sec">
+        <div class="wrap">
+            <div class="contact-grid">
+                <div>
+                    <div class="eyebrow r">Contact</div>
+                    <h2 class="sec-title r rd1">Let's work<br /><em>together</em></h2>
+                    <div class="rule r rd1"></div>
+                    <p class="contact-body r rd2">
+                        Every engagement begins with a conversation. Whether you have a clearly defined project or a challenge still taking shape — reach out. The first discussion is always without commitment.
+                    </p>
+                    <ul class="contact-items r rd3">
+                        <li class="ci">
+                            <div class="ci-icon">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+                            </div>
+                            <div>
+                                <span class="ci-label">Email</span>
+                                <div class="ci-val"><a href="mailto:contact@opex-mc.com">contact@opex-mc.com</a></div>
+                            </div>
+                        </li>
+                        <li class="ci">
+                            <div class="ci-icon">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 8.81 19.79 19.79 0 01.01 2.18a2 2 0 012-2.18h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.91 7.91a16 16 0 006.18 6.18l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7a2 2 0 011.72 2.05z"/></svg>
+                            </div>
+                            <div>
+                                <span class="ci-label">Phone</span>
+                                <div class="ci-val"><a href="tel:+21600000000">+216 00 000 000</a></div>
+                            </div>
+                        </li>
+                        <li class="ci">
+                            <div class="ci-icon">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-2-2 2 2 0 00-2 2v7h-4v-7a6 6 0 016-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
+                            </div>
+                            <div>
+                                <span class="ci-label">LinkedIn</span>
+                                <div class="ci-val"><a href="https://linkedin.com" target="_blank" rel="noopener noreferrer">linkedin.com/in/opex-consulting</a></div>
+                            </div>
+                        </li>
+                        <li class="ci">
+                            <div class="ci-icon">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13S3 17 3 10a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
+                            </div>
+                            <div>
+                                <span class="ci-label">Location</span>
+                                <div class="ci-val">Tunisia — available internationally</div>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="contact-form r rd2">
+                    <div id="fw">
+                        <p class="form-head">Send a message</p>
+                        <div class="frow">
+                            <div class="fg"><label for="fn">First name</label><input type="text" id="fn" placeholder="Jean" autocomplete="given-name" /></div>
+                            <div class="fg"><label for="ln">Last name</label><input type="text" id="ln" placeholder="Dupont" autocomplete="family-name" /></div>
+                        </div>
+                        <div class="fg"><label for="em">Email address</label><input type="email" id="em" placeholder="jean.dupont@company.com" autocomplete="email" /></div>
+                        <div class="fg"><label for="co">Organisation</label><input type="text" id="co" placeholder="Your company or organisation" /></div>
+                        <div class="fg">
+                            <label for="tp">Area of interest</label>
+                            <select id="tp">
+                                <option value="" disabled selected>Select a practice area</option>
+                                <option>Industrial Engineering &amp; Operations</option>
+                                <option>Railway Systems &amp; Infrastructure</option>
+                                <option>Automotive Industry</option>
+                                <option>Management &amp; Strategy</option>
+                                <option>Other / Multiple areas</option>
+                            </select>
+                        </div>
+                        <div class="fg"><label for="ms">Your message</label><textarea id="ms" placeholder="Describe your challenge or project — there is no wrong way to start this conversation."></textarea></div>
+                        <button class="btn-form" onclick="sendForm()">Send message</button>
+                        <p class="form-note">Your information is treated with complete confidentiality. OPEX will respond within one business day.</p>
+                    </div>
+                    <div class="form-ok" id="fok">
+                        <div class="form-ok-ico">
+                            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12" /></svg>
+                        </div>
+                        <h3>Message received</h3>
+                        <p>Thank you for reaching out. A response will follow within one business day.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ═══ FOOTER ══════════════════════════════════════════════ -->
+    <footer>
+        <div class="ft-inner">
+            <div class="ft-logo">
+                <img src="opex.png" alt="OPEX Consulting" />
+            </div>
+            <p class="ft-copy">
+                &copy; <span id="yr"></span> &nbsp;OPEX for Management and Consulting &nbsp;·&nbsp; Solo consultant &nbsp;·&nbsp; All rights reserved
+            </p>
+            <div class="ft-links">
+                <a href="mailto:contact@opex-mc.com">Email</a>
+                <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+                <a href="#hero">Top ↑</a>
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+    <script>
+        /* Contact form (page-specific, stays inline) */
+        function sendForm() {
+            const em = document.getElementById('em').value.trim();
+            const ms = document.getElementById('ms').value.trim();
+            if (!em || !ms) {
+                const bad = !em ? document.getElementById('em') : document.getElementById('ms');
+                bad.style.borderColor = '#c0392b';
+                bad.focus();
+                setTimeout(() => bad.style.borderColor = '', 2200);
+                return;
+            }
+            document.getElementById('fw').style.display = 'none';
+            document.getElementById('fok').style.display = 'block';
+        }
+        document.querySelectorAll('input,textarea').forEach(el =>
+            el.addEventListener('input', () => el.style.borderColor = ''));
+    </script>
+</body>
+</html>
